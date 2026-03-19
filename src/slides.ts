@@ -63,8 +63,8 @@ export const slides: SlideData[] = [
       "Tokenization: Splitting raw text into sub-word units (tokens) using algorithms like BPE or SentencePiece.",
       "Embeddings: Mapping tokens to dense numerical vectors in a high-dimensional semantic space.",
       "Transformer Architecture: The core engine using self-attention to capture long-range dependencies and contextual relationships.",
-      "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction or masked language modeling).",
-      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data (e.g., instruction tuning, RLHF)."
+      "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction).",
+      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data (e.g., instruction tuning)."
     ],
     visualType: 'llm-process',
     notes: "The Transformer architecture (Vaswani et al., 2017) is the backbone of all modern LLMs. Self-attention allows the model to weigh the relevance of every token relative to every other token in the sequence."
@@ -368,13 +368,11 @@ export const slides: SlideData[] = [
     id: 30,
     header: "What is LangChain?",
     content: [
-      "An open-source framework for building LLM-powered applications with composable components.",
-      "Provides abstractions for LLM calls, prompt management, memory, retrieval, and tool use.",
-      "Core Value Proposition:",
-      "- Unified Interface: Swap between OpenAI, Anthropic, Google, or local models with the same API.",
-      "- Composability: Chain prompts, retrievers, parsers, and tools into pipelines.",
-      "- Ecosystem: 700+ integrations with data sources, vector stores, and tools.",
-      "- Production Path: LangServe for deployment, LangSmith for observability."
+      "Open-source framework for building LLM apps with composable, swappable components.",
+      "Unified interface across OpenAI, Anthropic, Google, and local models.",
+      "Chain prompts, retrievers, parsers, and tools into pipelines via LCEL.",
+      "700+ integrations — vector stores, data loaders, APIs, and tools.",
+      "LangServe (deployment) + LangSmith (observability) for production."
     ],
     visualType: 'langchain',
     notes: "LangChain's main value is abstraction and composability. It lets you swap components (e.g., switch from OpenAI to Anthropic) without rewriting your application logic."

@@ -563,27 +563,69 @@ export const ObservabilityDashboard = () => (
 
 // --- 9. LangChain (Slide 9: LangChain) ---
 export const LangChainInfographic = () => (
-  <div className="w-full h-full flex items-center justify-center bg-neutral-900 p-4">
-    <div className="relative w-64 h-64 flex items-center justify-center">
-      <motion.div 
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 border-2 border-dashed border-blue-500/20 rounded-full" 
-      />
-      <div className="relative z-10 p-8 bg-blue-600 rounded-3xl shadow-2xl">
-        <Workflow size={64} className="text-white" />
-      </div>
-      {[0, 120, 240].map((angle, i) => (
-        <div 
-          key={i}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48"
-          style={{ transform: `translate(-50%, -50%) rotate(${angle}deg)` }}
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-neutral-800 border border-blue-500/30 rounded-xl flex items-center justify-center text-blue-400">
-            {i === 0 ? <Database size={20} /> : i === 1 ? <Search size={20} /> : <Code2 size={20} />}
-          </div>
+  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-950 p-3 overflow-hidden">
+    <div className="w-full flex flex-col gap-2">
+      {/* Header */}
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30">
+          <Workflow size={18} className="text-white" />
         </div>
-      ))}
+        <span className="text-sm font-black text-white uppercase tracking-wider">LangChain</span>
+      </div>
+
+      {/* Core Pipeline: Prompt → LLM → Parser */}
+      <div className="flex items-center justify-center gap-1.5">
+        {[
+          { label: "Prompt", icon: MessageSquare, color: "bg-blue-600" },
+          { label: "Model", icon: Cpu, color: "bg-purple-600" },
+          { label: "Parser", icon: FileJson, color: "bg-emerald-600" },
+        ].map((step, i, arr) => (
+          <React.Fragment key={i}>
+            <div className={`flex flex-col items-center gap-1 px-2 py-1.5 ${step.color} rounded-lg`}>
+              <step.icon size={14} className="text-white" />
+              <span className="text-[7px] font-bold text-white uppercase">{step.label}</span>
+            </div>
+            {i < arr.length - 1 && (
+              <ArrowRight className="text-neutral-600 w-3 h-3 flex-shrink-0" />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Composable Layers */}
+      <div className="space-y-1.5">
+        {[
+          { label: "Models", items: ["OpenAI", "Anthropic", "Google", "Local"], color: "border-blue-500/30", badge: "text-blue-400" },
+          { label: "Retrievers", items: ["Vector DB", "BM25", "Hybrid", "Multi-Query"], color: "border-emerald-500/30", badge: "text-emerald-400" },
+          { label: "Tools", items: ["Search", "SQL", "APIs", "Code"], color: "border-amber-500/30", badge: "text-amber-400" },
+        ].map((layer, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className={`p-1.5 bg-white/5 rounded-lg border ${layer.color} flex items-center gap-2`}
+          >
+            <span className={`text-[8px] font-black uppercase tracking-wider ${layer.badge} w-14 flex-shrink-0`}>{layer.label}</span>
+            <div className="flex flex-wrap gap-1">
+              {layer.items.map((item, j) => (
+                <span key={j} className="px-1.5 py-0.5 bg-white/5 rounded text-[7px] text-white/70 border border-white/5">{item}</span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Footer: Ecosystem */}
+      <div className="flex items-center justify-center gap-3 mt-1">
+        {[
+          { label: "LangServe", color: "text-blue-400" },
+          { label: "LangSmith", color: "text-emerald-400" },
+          { label: "700+ Integrations", color: "text-amber-400" },
+        ].map((eco, i) => (
+          <span key={i} className={`text-[7px] font-bold uppercase tracking-wider ${eco.color}`}>{eco.label}</span>
+        ))}
+      </div>
     </div>
   </div>
 );
