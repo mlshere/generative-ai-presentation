@@ -265,7 +265,7 @@ function SlideContent({ slide }: { slide: SlideData }) {
       case 'react': return <Infographics.ReActCycle />;
       case 'tools': return <Infographics.ToolExecution />;
       case 'mcp': return <Infographics.MCPComparison />;
-      case 'usecase': return <Infographics.AgenticRAGFlow />;
+      case 'usecase': return <Infographics.UseCaseFlow />;
       case 'observability': return <Infographics.AgentTerms />;
       case 'future': return <Infographics.AgentEvolution />;
       case 'AI structure': return <Infographics.AIStructure />;

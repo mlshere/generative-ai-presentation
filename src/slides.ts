@@ -35,10 +35,10 @@ export const slides: SlideData[] = [
     id: 3,
     header: "Core AI Concepts Explained",
     content: [
-      "Artificial Intelligence: The broad discipline of building systems that exhibit intelligent behavior — reasoning, learning, and decision-making.",
-      "Machine Learning: A subset of AI where models learn statistical patterns from data rather than following hardcoded rules.",
-      "Deep Learning: A subset of ML using multi-layered neural networks (deep architectures) that automatically learn hierarchical feature representations.",
-      "NLP (Natural Language Processing): The field focused on enabling machines to understand, interpret, and generate human language."
+      "Artificial Intelligence: Builds systems that exhibit intelligent behavior — reasoning, learning, and decision-making.",
+      "Machine Learning: AI where models learn statistical patterns from data rather than following hardcoded rules.",
+      "Deep Learning: ML using multi-layered neural networks (deep architectures) that learn hierarchical feature representations.",
+      "Natural Language Processing: Enables machines to understand, interpret, and generate human language."
     ],
     visualType: 'ai-concepts',
     notes: "These are nested concepts: DL ⊂ ML ⊂ AI. NLP is an application domain that heavily leverages all three. Modern Gen AI sits at the intersection of DL and NLP."
@@ -60,7 +60,7 @@ export const slides: SlideData[] = [
     id: 5,
     header: "How an LLM Works: The Foundation",
     content: [
-      "Tokenization: Splitting raw text into sub-word units (tokens) using algorithms like BPE or SentencePiece.",
+      "Tokenization: Splitting raw text into sub-word units (tokens).",
       "Embeddings: Mapping tokens to dense numerical vectors in a high-dimensional semantic space.",
       "Transformer Architecture: The core engine using self-attention to capture long-range dependencies and contextual relationships.",
       "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction).",
@@ -409,13 +409,7 @@ export const slides: SlideData[] = [
     header: "Output Parsers: Structured Data",
     content: [
       "Converting unstructured LLM text output into typed, validated data structures.",
-      "Schema-driven: Define the expected shape using Zod (TypeScript) or Pydantic (Python).",
-      "Example:",
-      "const parser = StructuredOutputParser.fromZodSchema(z.object({",
-      "  productName: z.string().describe('The product name'),",
-      "  sentiment: z.enum(['positive', 'negative', 'neutral']).describe('Overall sentiment'),",
-      "  keyFeatures: z.array(z.string()).describe('Top features mentioned')",
-      "}));"
+      "Schema-driven: Define the expected shape using Zod (TypeScript) or Pydantic (Python)."
     ],
     visualType: 'langchain-output',
     notes: "Output parsers inject formatting instructions into the prompt and validate the response. If parsing fails, you can use OutputFixingParser to automatically retry with the error context."
@@ -464,8 +458,7 @@ export const slides: SlideData[] = [
       "LangGraph extends LangChain with cyclic graphs, persistent state, and fine-grained control flow.",
       "LangChain provides the components (LLMs, tools, prompts); LangGraph orchestrates them into workflows.",
       "Key Capabilities: Conditional edges, loops, parallel branches, human-in-the-loop, and state checkpointing.",
-      "Core Abstraction: Nodes (functions) + Edges (routing logic) + State (shared, typed context).",
-      "Example Pattern: Planner → Executor → Evaluator → (loop back if quality threshold not met)."
+      "Core Abstraction: Nodes (functions) + Edges (routing logic) + State (shared, typed context)."
     ],
     visualType: 'langgraph',
     notes: "LangGraph is now the recommended way to build agents in the LangChain ecosystem. It gives you the control of a state machine with the power of LLM-driven decision making."
@@ -509,15 +502,15 @@ export const slides: SlideData[] = [
   },
   {
     id: 41,
-    header: "MCP: Model Context Protocol",
+    header: "What is MCP?",
     content: [
-      "The Problem: M models × N tools = M×N custom integrations — unsustainable.",
-      "The Solution: MCP provides a universal, open protocol — M + N integrations total.",
-      "Standardized Connectivity: Any MCP-compatible model (Claude, Gemini, GPT) can use any MCP-compatible server (CRM, database, file system).",
-      "Capabilities: Tools (actions), Resources (data access), Prompts (reusable templates), and Sampling (model-initiated LLM calls)."
+      "MCP (Model Context Protocol) is a universal standard that connects AI models to tools and data sources.",
+      "Think of it like USB for AI — one standard plug instead of a custom cable for every device.",
+      "Without MCP: 3 models × 3 tools = 9 custom integrations.",
+      "With MCP: 3 models + 3 tools = 6 integrations through one shared protocol."
     ],
     visualType: 'mcp',
-    notes: "MCP (created by Anthropic, now open standard) is to LLM tool use what USB was to hardware peripherals — a universal interface that eliminates the need for custom connectors."
+    notes: "MCP simplifies integrations, making it easier to connect AI models with tools and data sources."
   },
   {
     id: 42,

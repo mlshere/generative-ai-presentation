@@ -2495,41 +2495,89 @@ export const LangGraphArchitecture = () => (
 
 // --- MCP Comparison ---
 export const MCPComparison = () => (
-  <div className="w-full h-full bg-orange-50 p-12 flex items-center justify-center font-sans">
-    <div className="grid grid-cols-2 gap-16 w-full max-w-4xl">
+  <div className="w-full h-full bg-neutral-950 p-3 flex flex-col items-center justify-center overflow-hidden">
+    <div className="w-full flex flex-col gap-3">
       {/* Without MCP */}
-      <div className="flex flex-col items-center">
-        <h4 className="text-2xl font-bold text-neutral-800 mb-8">Without MCP</h4>
-        <div className="relative w-full aspect-square bg-white rounded-3xl shadow-xl p-8 flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 opacity-20">
-            {[...Array(12)].map((_, i) => (
-              <div key={i} className="absolute w-full h-px bg-neutral-900" style={{ top: `${i * 10}%`, transform: `rotate(${i * 30}deg)` }} />
+      <div className="p-3 bg-white/5 rounded-2xl border border-red-500/20">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+          <span className="text-[9px] font-black text-red-400 uppercase tracking-widest">Without MCP</span>
+        </div>
+        <div className="flex items-center justify-center gap-1">
+          {/* Models */}
+          <div className="flex flex-col gap-1">
+            {["Claude", "GPT", "Gemini"].map((m, i) => (
+              <div key={i} className="px-2 py-1 bg-neutral-800 rounded text-[8px] font-bold text-neutral-300 border border-neutral-700 text-center w-14">{m}</div>
             ))}
           </div>
-          <div className="relative z-10 text-center">
-            <div className="text-5xl font-black text-neutral-900 mb-2">M × N</div>
-            <div className="text-sm text-neutral-500 uppercase tracking-widest">Custom Connectors</div>
+          {/* Tangled lines */}
+          <svg viewBox="0 0 60 60" className="w-16 h-16 flex-shrink-0">
+            {[0,1,2].map(m => [0,1,2].map(t => (
+              <line key={`${m}-${t}`} x1="0" y1={10 + m * 20} x2="60" y2={10 + t * 20} stroke="#ef4444" strokeWidth="0.8" opacity="0.4" />
+            )))}
+          </svg>
+          {/* Tools */}
+          <div className="flex flex-col gap-1">
+            {["Shopify", "Slack", "SQL"].map((t, i) => (
+              <div key={i} className="px-2 py-1 bg-neutral-800 rounded text-[8px] font-bold text-neutral-300 border border-neutral-700 text-center w-14">{t}</div>
+            ))}
           </div>
         </div>
-        <p className="mt-6 text-sm text-neutral-600 text-center">Every model needs a unique integration for every tool.</p>
+        <div className="text-center mt-1.5">
+          <span className="text-[10px] font-black text-red-400">M × N</span>
+          <span className="text-[9px] text-neutral-500 ml-1">custom connectors</span>
+        </div>
       </div>
 
       {/* With MCP */}
-      <div className="flex flex-col items-center">
-        <h4 className="text-2xl font-bold text-neutral-800 mb-8">With MCP</h4>
-        <div className="relative w-full aspect-square bg-white rounded-3xl shadow-2xl p-8 flex items-center justify-center border-4 border-blue-500">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-3/4 h-3/4 border-2 border-dashed border-blue-200 rounded-full animate-spin-slow" />
+      <div className="p-3 bg-blue-600/10 rounded-2xl border border-blue-500/30">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+          <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">With MCP</span>
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          {/* Models */}
+          <div className="flex flex-col gap-1">
+            {["Claude", "GPT", "Gemini"].map((m, i) => (
+              <div key={i} className="px-2 py-1 bg-neutral-800 rounded text-[8px] font-bold text-blue-300 border border-blue-500/30 text-center w-14">{m}</div>
+            ))}
           </div>
-          <div className="relative z-10 text-center">
-            <div className="w-20 h-20 bg-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center text-white shadow-lg shadow-blue-500/40">
-              <Share2 size={40} />
+          {/* Clean lines to hub */}
+          <div className="flex items-center">
+            <div className="flex flex-col gap-3">
+              {[0,1,2].map(i => (
+                <div key={i} className="w-4 h-px bg-blue-500/50" />
+              ))}
             </div>
-            <div className="text-5xl font-black text-blue-600 mb-2">M + N</div>
-            <div className="text-sm text-blue-500 uppercase tracking-widest font-bold">Universal Protocol</div>
+            <motion.div 
+              animate={{ scale: [1, 1.08, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-[0_0_20px_rgba(37,99,235,0.4)] mx-1"
+            >
+              <Share2 size={20} />
+            </motion.div>
+            <div className="flex flex-col gap-3">
+              {[0,1,2].map(i => (
+                <div key={i} className="w-4 h-px bg-blue-500/50" />
+              ))}
+            </div>
+          </div>
+          {/* Tools */}
+          <div className="flex flex-col gap-1">
+            {["Shopify", "Slack", "SQL"].map((t, i) => (
+              <div key={i} className="px-2 py-1 bg-neutral-800 rounded text-[8px] font-bold text-emerald-300 border border-emerald-500/30 text-center w-14">{t}</div>
+            ))}
           </div>
         </div>
-        <p className="mt-6 text-sm text-blue-700 font-bold text-center">One standard interface for all models and all tools.</p>
+        <div className="text-center mt-1.5">
+          <span className="text-[10px] font-black text-blue-400">M + N</span>
+          <span className="text-[9px] text-neutral-400 ml-1">universal protocol</span>
+        </div>
+      </div>
+
+      {/* Tagline */}
+      <div className="text-center">
+        <span className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest">Like USB — one standard plug for everything</span>
       </div>
     </div>
   </div>
