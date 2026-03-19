@@ -382,11 +382,7 @@ export const slides: SlideData[] = [
     header: "Prompt Templates",
     content: [
       "Parameterized prompts that separate structure from data — enabling reuse and consistency.",
-      "Type Safety: Input variables are validated at construction time.",
-      "Example (TypeScript):",
-      "const template = 'Analyze this product: Name: {name}, Category: {category}, Description: {description}';",
-      "const prompt = new PromptTemplate({ template, inputVariables: ['name', 'category', 'description'] });",
-      "const formatted = await prompt.format({ name: 'Widget', category: 'Electronics', description: '...' });"
+      "Type Safety: Input variables are validated at construction time."
     ],
     visualType: 'langchain-prompt',
     notes: "Always use prompt templates instead of string concatenation. They provide validation, versioning, and make it easy to test different prompt strategies."
@@ -396,10 +392,7 @@ export const slides: SlideData[] = [
     header: "LangChain Expression Language (LCEL)",
     content: [
       "Declarative composition of chains using the pipe operator: `prompt | model | parser`.",
-      "Built-in: Streaming, async/batch execution, retries, and fallbacks — production-ready by default.",
-      "Example:",
-      "const chain = prompt.pipe(model).pipe(new StructuredOutputParser(schema));",
-      "const result = await chain.invoke({ input: 'Summarize this product review' });"
+      "Built-in: Streaming, async/batch execution, retries, and fallbacks — production-ready by default."
     ],
     visualType: 'langchain-lcel',
     notes: "LCEL replaced the legacy Chain classes. Every LCEL chain automatically supports streaming, batching, and async — you get production features for free."
@@ -431,10 +424,10 @@ export const slides: SlideData[] = [
     id: 35,
     header: "Memory: Maintaining Conversational State",
     content: [
-      "BufferMemory: Stores the full conversation history — simple but grows unbounded.",
-      "WindowMemory: Keeps only the last K turns — bounded but loses early context.",
+      "BufferMemory: Stores the full conversation history, simple but grows unbounded.",
+      "WindowMemory: Keeps only the last K turns, bounded but loses early context.",
       "TokenBufferMemory: Keeps as many messages as fit within a token budget.",
-      "SummaryMemory: Periodically summarizes older messages — balances context retention with cost.",
+      "SummaryMemory: Periodically summarizes older messages and balances context retention with cost.",
       "Best Practice: Combine short-term buffer memory with long-term vector store retrieval for production chatbots."
     ],
     visualType: 'langchain-memory',
