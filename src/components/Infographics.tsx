@@ -754,26 +754,37 @@ export const ToolExecution = () => (
 
 // --- 18. Use Case (Slide 18: Use Case) ---
 export const UseCaseFlow = () => (
-  <div className="w-full h-full flex items-center justify-center bg-white p-4">
-    <div className="flex gap-4 items-center">
-      <div className="p-4 bg-neutral-50 border border-neutral-100 rounded-xl flex flex-col items-center gap-2">
-        <FileJson size={24} className="text-neutral-400" />
-        <span className="text-[8px] font-bold uppercase">Raw Data</span>
+  <div className="w-full h-full flex flex-col items-center justify-center bg-white p-4">
+    <div className="flex flex-col gap-3 items-center">
+      {/* Step 1: Input */}
+      <div className="p-3 bg-neutral-50 border border-neutral-100 rounded-xl flex flex-col items-center gap-2 w-28 shadow-sm">
+        <FileJson size={20} className="text-neutral-400" />
+        <span className="text-[8px] font-black uppercase text-neutral-600">Raw Data</span>
       </div>
-      <ArrowRight className="text-neutral-300" />
-      <div className="p-6 bg-blue-600 rounded-2xl flex flex-col items-center gap-2 text-white shadow-lg">
-        <BrainCircuit size={32} />
-        <span className="text-[8px] font-bold uppercase">Agent 1</span>
+      
+      <ArrowRight className="text-neutral-300 rotate-90" size={16} />
+      
+      {/* Step 2: Multi-Agent Loop */}
+      <div className="flex items-center gap-3 p-3 bg-blue-50/50 rounded-3xl border border-blue-100">
+        <div className="p-4 bg-blue-600 rounded-2xl flex flex-col items-center gap-2 text-white shadow-lg w-20">
+          <BrainCircuit size={24} />
+          <span className="text-[8px] font-black uppercase">Agent 1</span>
+        </div>
+        
+        <RefreshCw className="text-blue-400 animate-spin" size={16} />
+        
+        <div className="p-4 bg-neutral-900 rounded-2xl flex flex-col items-center gap-2 text-white shadow-lg w-20">
+          <Eye size={24} />
+          <span className="text-[8px] font-black uppercase">Agent 2</span>
+        </div>
       </div>
-      <RefreshCw className="text-blue-200 animate-spin" />
-      <div className="p-6 bg-neutral-900 rounded-2xl flex flex-col items-center gap-2 text-white shadow-lg">
-        <Eye size={32} />
-        <span className="text-[8px] font-bold uppercase">Agent 2</span>
-      </div>
-      <ArrowRight className="text-neutral-300" />
-      <div className="p-4 bg-green-50 border border-green-100 rounded-xl flex flex-col items-center gap-2">
-        <CheckCircle2 size={24} className="text-green-500" />
-        <span className="text-[8px] font-bold uppercase">Shopify</span>
+      
+      <ArrowRight className="text-neutral-300 rotate-90" size={16} />
+      
+      {/* Step 3: Output */}
+      <div className="p-3 bg-green-50 border border-green-100 rounded-xl flex flex-col items-center gap-2 w-28 shadow-sm">
+        <CheckCircle2 size={20} className="text-green-500" />
+        <span className="text-[8px] font-black uppercase text-green-700">Shopify</span>
       </div>
     </div>
   </div>
@@ -1661,59 +1672,58 @@ export const DetailedRAGArchitecture = () => (
 
 // --- 34. RAG Indexing Code 1 ---
 export const RAGIndexingCode1 = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-950 p-8">
-    <div className="w-full max-w-full grid grid-cols-2 gap-8">
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-blue-600 rounded-2xl text-white">
-            <FileCode size={24} />
-          </div>
-          <div>
-            <h4 className="text-white font-black uppercase tracking-tighter text-xl">Loading & Splitting</h4>
-            <p className="text-neutral-400 text-xs">Preparing data for the vector space.</p>
-          </div>
-        </div>
-        <div className="space-y-4">
-          {[
-            { title: "TextLoader", desc: "Extracts raw text from files.", icon: FileText },
-            { title: "RecursiveCharacterTextSplitter", desc: "Intelligent chunking with overlap.", icon: Scissors },
-            { title: "Context Window", desc: "Ensures chunks fit LLM limits.", icon: Layout }
-          ].map((item, i) => (
-            <div key={i} className="p-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex items-center gap-4">
-              <item.icon size={20} className="text-blue-400" />
-              <div>
-                <span className="text-[10px] font-black text-white uppercase">{item.title}</span>
-                <p className="text-[8px] text-neutral-500">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+  <div className="w-full h-full flex flex-col bg-neutral-950 p-4 gap-3 overflow-hidden">
+    {/* Header */}
+    <div className="flex items-center gap-3">
+      <div className="p-2.5 bg-blue-600 rounded-xl text-white flex-shrink-0">
+        <FileCode size={20} />
       </div>
-      <div className="bg-neutral-900 rounded-3xl border border-neutral-800 overflow-hidden shadow-2xl flex flex-col">
-        <div className="bg-neutral-800 px-4 py-2 flex items-center justify-between border-b border-neutral-700">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
+      <div>
+        <h4 className="text-white font-black uppercase tracking-tighter text-sm">Loading & Splitting</h4>
+        <p className="text-neutral-400 text-[9px]">Preparing data for the vector space.</p>
+      </div>
+    </div>
+
+    {/* Concepts */}
+    <div className="grid grid-cols-3 gap-2">
+      {[
+        { title: "Loader", desc: "Extract raw text.", icon: FileText },
+        { title: "Splitter", desc: "Chunk with overlap.", icon: Scissors },
+        { title: "Limits", desc: "Fit LLM window.", icon: Layout }
+      ].map((item, i) => (
+        <div key={i} className="p-2 bg-neutral-900 border border-neutral-800 rounded-xl flex flex-col items-center text-center gap-1.5">
+          <item.icon size={14} className="text-blue-400" />
+          <div>
+            <div className="text-[8px] font-black text-white uppercase">{item.title}</div>
+            <div className="text-[7px] text-neutral-500 leading-tight">{item.desc}</div>
           </div>
-          <span className="text-[10px] font-mono text-neutral-500">indexing_pipeline.py</span>
         </div>
-        <div className="p-6 font-mono text-[10px] leading-relaxed overflow-auto">
-          <div className="text-neutral-500"># 1. Load the document</div>
-          <div className="text-blue-400">from <span className="text-white">langchain.document_loaders</span> import <span className="text-white">TextLoader</span></div>
-          <div className="text-white mt-1">loader = TextLoader(<span className="text-emerald-400">'data.txt'</span>)</div>
-          <div className="text-white">docs = loader.load()</div>
-          
-          <div className="text-neutral-500 mt-4"># 2. Split into chunks</div>
-          <div className="text-blue-400">from <span className="text-white">langchain.text_splitter</span> import <span className="text-white">RecursiveCharacterTextSplitter</span></div>
-          <div className="text-white mt-1">text_splitter = RecursiveCharacterTextSplitter(</div>
-          <div className="text-white ml-4">chunk_size = <span className="text-amber-400">1000</span>,</div>
-          <div className="text-white ml-4">chunk_overlap = <span className="text-amber-400">200</span></div>
-          <div className="text-white">)</div>
-          <div className="text-white mt-1">chunks = text_splitter.split_documents(docs)</div>
-          
-          <div className="text-emerald-400 mt-4">print(<span className="text-white">f"Created {"{len(chunks)}"} chunks"</span>)</div>
+      ))}
+    </div>
+
+    {/* Code Block */}
+    <div className="flex-1 bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl flex flex-col min-h-0">
+      <div className="bg-neutral-800 px-3 py-1.5 flex items-center justify-between border-b border-neutral-700">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
         </div>
+        <span className="text-[8px] font-mono text-neutral-500">indexing_pipeline.py</span>
+      </div>
+      <div className="p-4 font-mono text-[9px] leading-relaxed overflow-y-auto">
+        <div className="text-neutral-500"># 1. Load the document</div>
+        <div className="text-blue-400">from <span className="text-white">langchain.document_loaders</span> import <span className="text-white">TextLoader</span></div>
+        <div className="text-white mt-1">loader = TextLoader(<span className="text-emerald-400">'data.txt'</span>)</div>
+        <div className="text-white">docs = loader.load()</div>
+        
+        <div className="text-neutral-500 mt-4"># 2. Split into chunks</div>
+        <div className="text-blue-400">from <span className="text-white">langchain.text_splitter</span> import <span className="text-white">RecursiveCharacter</span></div>
+        <div className="text-white mt-1">splitter = RecursiveCharacterTextSplitter(</div>
+        <div className="text-white ml-4">chunk_size = <span className="text-amber-400">1000</span>,</div>
+        <div className="text-white ml-4">chunk_overlap = <span className="text-amber-400">200</span></div>
+        <div className="text-white">)</div>
+        <div className="text-white mt-1">chunks = splitter.split_documents(docs)</div>
       </div>
     </div>
   </div>
@@ -1858,36 +1868,35 @@ export const VectorDBComparison = () => (
 
 // --- 37. Advanced RAG Types ---
 export const AdvancedRAGTypes = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-8">
+  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-4 overflow-hidden">
     <div className="w-full max-w-full">
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-2">
         {[
-          { title: "Self-RAG", desc: "Self-reflection and grading of retrieved documents.", icon: RefreshCw, color: "bg-blue-500" },
-          { title: "Corrective RAG", desc: "Using web search as fallback for low-quality retrieval.", icon: ShieldCheck, color: "bg-emerald-500" },
-          { title: "Adaptive RAG", desc: "Routing queries to different strategies based on complexity.", icon: GitBranch, color: "bg-purple-500" },
+          { title: "Self-RAG", desc: "Self-reflection and grading of retrieved docs.", icon: RefreshCw, color: "bg-blue-500" },
+          { title: "Corrective", desc: "Using web search as fallback for low-quality.", icon: ShieldCheck, color: "bg-emerald-500" },
+          { title: "Adaptive", desc: "Routing queries based on complexity.", icon: GitBranch, color: "bg-purple-500" },
           { title: "Multi-Query", desc: "Generating multiple queries to improve recall.", icon: Share2, color: "bg-amber-500" },
           { title: "Re-Ranking", desc: "Using a cross-encoder to refine top results.", icon: Milestone, color: "bg-red-500" },
-          { title: "Graph RAG", desc: "Leveraging knowledge graphs for complex relationships.", icon: Network, color: "bg-indigo-500" }
+          { title: "Graph RAG", desc: "Leveraging knowledge graphs for relationships.", icon: Network, color: "bg-indigo-500" }
         ].map((item, i) => (
           <motion.div 
             key={i}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.1 }}
-            className="p-6 bg-white rounded-3xl border border-neutral-200 shadow-sm hover:shadow-md transition-shadow"
+            className="p-3 bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col"
           >
-            <div className={`w-12 h-12 ${item.color} rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg`}>
-              <item.icon size={24} />
+            <div className={`w-8 h-8 ${item.color} rounded-lg flex items-center justify-center text-white mb-2 shadow-sm`}>
+              <item.icon size={16} />
             </div>
-            <h4 className="text-sm font-black uppercase mb-2">{item.title}</h4>
-            <p className="text-[10px] text-neutral-500 leading-relaxed">{item.desc}</p>
+            <h4 className="text-[10px] font-black uppercase mb-1 leading-tight">{item.title}</h4>
+            <p className="text-[8px] text-neutral-500 leading-snug">{item.desc}</p>
           </motion.div>
         ))}
       </div>
     </div>
   </div>
 );
-
 // --- 39. Agent Evolution ---
 export const AgentEvolution = () => (
   <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-8">
@@ -2023,42 +2032,41 @@ export const AgentThinkingProcess = () => (
 
 // --- 42. Agentic RAG Flow ---
 export const AgenticRAGFlow = () => (
-  <div className="w-full h-full flex items-center justify-center bg-white p-8">
-    <div className="relative w-full max-w-full grid grid-cols-3 gap-3">
+  <div className="w-full h-full flex items-center justify-center bg-white p-4">
+    <div className="relative w-full max-w-full grid grid-cols-3 gap-2">
       {/* Functions */}
-      <div className="space-y-4">
-        <h4 className="text-xs font-black text-neutral-400 uppercase tracking-widest">Available Functions</h4>
-        <div className="space-y-2">
-          {["Tool Functions", "Action Functions", "LLM Functions", "Retrieval Functions"].map((item, i) => (
-            <div key={i} className="p-4 bg-purple-50 rounded-2xl border-2 border-purple-100 text-purple-700 font-bold text-xs">
+      <div className="flex flex-col gap-2 w-full">
+        <h4 className="text-[8px] font-black text-neutral-400 uppercase tracking-wide text-center">Functions</h4>
+        <div className="flex flex-col gap-1.5">
+          {["Tool", "Action", "LLM", "Retrieval"].map((item, i) => (
+            <div key={i} className="p-2 bg-purple-50 rounded-xl border border-purple-100 text-purple-700 font-bold text-[8px] text-center shadow-sm">
               {item}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Agent Application */}
-      <div className="flex flex-col items-center justify-center gap-8">
-        <div className="w-24 h-24 bg-emerald-600 rounded-3xl flex items-center justify-center text-white shadow-xl">
-          <Cpu size={48} />
+      {/* Central Agent */}
+      <div className="flex flex-col items-center justify-center gap-4 relative">
+        <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg z-10">
+          <Cpu size={32} />
         </div>
-        <div className="text-center">
-          <p className="text-sm font-black text-neutral-900 uppercase">AI Agent Application</p>
-          <p className="text-[10px] text-neutral-500">Orchestrating JSON/REST APIs</p>
+        <div className="text-center z-10">
+          <p className="text-[9px] font-black text-neutral-900 uppercase">AI Agent</p>
+          <p className="text-[7px] text-neutral-500 mt-1 uppercase tracking-widest">Orchestrator</p>
         </div>
-        <div className="w-full h-px bg-neutral-100 relative">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-white text-[8px] font-bold text-neutral-400 uppercase">Standard RAG Retrieval</div>
-        </div>
+        {/* Faint connection lines behind */}
+        <div className="absolute top-1/2 left-0 w-full h-px bg-neutral-100 -translate-y-6" />
       </div>
 
       {/* Knowledge Base */}
-      <div className="space-y-4">
-        <h4 className="text-xs font-black text-neutral-400 uppercase tracking-widest">Persistent Knowledge</h4>
-        <div className="grid grid-cols-2 gap-2">
-          {["Graph DB", "Vector DB", "Relational DB", "File Store"].map((item, i) => (
-            <div key={i} className="p-3 bg-blue-50 rounded-xl border border-blue-100 flex flex-col items-center gap-2">
-              <Database size={20} className="text-blue-600" />
-              <span className="text-[8px] font-bold text-blue-800 uppercase">{item}</span>
+      <div className="flex flex-col gap-2 w-full">
+        <h4 className="text-[8px] font-black text-neutral-400 uppercase tracking-wide text-center">Knowledge</h4>
+        <div className="grid grid-cols-1 gap-1.5">
+          {["Graph DB", "Vector DB", "SQL DB", "Files"].map((item, i) => (
+            <div key={i} className="py-2 px-1 bg-blue-50 rounded-xl border border-blue-100 flex items-center justify-center gap-1.5 shadow-sm">
+              <Database size={10} className="text-blue-600 flex-shrink-0" />
+              <span className="text-[7px] font-bold text-blue-800 uppercase text-center block leading-tight">{item}</span>
             </div>
           ))}
         </div>
@@ -2069,28 +2077,28 @@ export const AgenticRAGFlow = () => (
 
 // --- 43. Agent Terms ---
 export const AgentTerms = () => (
-  <div className="w-full h-full bg-neutral-50 p-8 flex items-center justify-center">
-    <div className="grid grid-cols-3 gap-4 w-full max-w-full">
+  <div className="w-full h-full bg-neutral-50 p-3 flex items-center justify-center overflow-hidden">
+    <div className="grid grid-cols-3 gap-2 w-full max-w-full">
       {[
-        { title: "Statefulness", desc: "Ability to recall the past and maintain context." },
-        { title: "Reflection", desc: "Agent reviews its own performance and corrects errors." },
-        { title: "Autonomy", desc: "Works without being told exactly what to do." },
-        { title: "Task Decomposition", desc: "Breaks a big task into smaller, manageable ones." },
-        { title: "Planning", desc: "Maps out steps to reach a specific goal." },
-        { title: "Agent Loop", desc: "Think → Act → Learn → Repeat cycle." },
-        { title: "Context Window", desc: "The agent's working memory in a session." },
-        { title: "Observability", desc: "Tracking every move and decision the agent makes." },
-        { title: "Memory Retrieval", desc: "Bringing back useful info on demand." }
+        { title: "Stateful", desc: "Recalls past context." },
+        { title: "Reflection", desc: "Self-corrects errors." },
+        { title: "Autonomy", desc: "Works independently." },
+        { title: "Decompose", desc: "Breaks big tasks down." },
+        { title: "Planning", desc: "Maps steps to goal." },
+        { title: "Loop", desc: "Think → Act → Learn." },
+        { title: "Context", desc: "Working memory limit." },
+        { title: "Observe", desc: "Tracks all decisions." },
+        { title: "Retrieval", desc: "Fetches facts on demand." }
       ].map((item, i) => (
         <motion.div 
           key={i}
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05 }}
-          className="p-6 bg-white rounded-3xl border border-neutral-200 shadow-sm hover:shadow-md transition-all group"
+          className="p-3 bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-center"
         >
-          <h4 className="text-xs font-black uppercase text-blue-600 mb-2 group-hover:text-blue-700">{item.title}</h4>
-          <p className="text-[10px] text-neutral-500 leading-relaxed">{item.desc}</p>
+          <h4 className="text-[9px] font-black uppercase text-blue-600 mb-1 leading-none">{item.title}</h4>
+          <p className="text-[8px] text-neutral-500 leading-tight">{item.desc}</p>
         </motion.div>
       ))}
     </div>
@@ -2099,53 +2107,50 @@ export const AgentTerms = () => (
 
 // --- 44. Reasoning Patterns 1 ---
 export const ReasoningPatterns1 = () => (
-  <div className="w-full h-full flex items-center justify-center bg-white p-8">
-    <div className="grid grid-cols-2 gap-3 w-full max-w-full">
+  <div className="w-full h-full flex items-center justify-center bg-white p-4">
+    <div className="flex flex-col gap-4 w-full">
       {/* ReAct */}
-      <div className="p-8 bg-neutral-900 rounded-[40px] text-white space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center">
-            <BrainCircuit size={24} />
+      <div className="p-4 bg-neutral-900 rounded-[28px] text-white flex items-stretch gap-4">
+        <div className="flex flex-col items-center justify-center w-1/4 border-r border-white/10 pr-4">
+          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center mb-2">
+            <BrainCircuit size={20} />
           </div>
-          <h4 className="text-xl font-black uppercase tracking-tighter">ReAct</h4>
+          <h4 className="text-[10px] font-black uppercase tracking-tighter text-center">ReAct</h4>
         </div>
-        <div className="space-y-4 font-mono text-[10px]">
+        <div className="flex-1 space-y-1.5 font-mono text-[8.5px] flex flex-col justify-center">
           <div className="text-blue-400">Thought: <span className="text-white">I need to check the weather.</span></div>
           <div className="text-emerald-400">Action: <span className="text-white">WeatherAPI("Delhi")</span></div>
-          <div className="text-amber-400">Observation: <span className="text-white">28°C, Sunny</span></div>
+          <div className="text-amber-400">Obs: <span className="text-white">28°C, Sunny</span></div>
           <div className="text-blue-400">Thought: <span className="text-white">It's sunny in Delhi.</span></div>
-          <div className="text-white border-t border-white/20 pt-2">Final Answer: It's 28°C and sunny in Delhi.</div>
+          <div className="text-white border-t border-white/20 pt-1.5 mt-1">Final: It's 28°C and sunny in Delhi.</div>
         </div>
       </div>
 
       {/* Plan-and-Execute */}
-      <div className="p-8 bg-blue-600 rounded-[40px] text-white space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600">
-            <Milestone size={24} />
+      <div className="p-4 bg-blue-600 rounded-[28px] text-white flex items-stretch gap-4">
+        <div className="flex flex-col items-center justify-center w-1/4 border-r border-white/20 pr-4">
+          <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 mb-2">
+            <Milestone size={20} />
           </div>
-          <h4 className="text-xl font-black uppercase tracking-tighter">Plan-and-Execute</h4>
+          <h4 className="text-[10px] font-black uppercase tracking-tighter text-center leading-tight">Plan &<br/>Execute</h4>
         </div>
-        <div className="space-y-2 text-[10px] font-bold">
-          <div className="flex gap-3">
-            <span className="opacity-50">1.</span>
-            <span>Search latest research papers on AI.</span>
+        <div className="flex-1 flex flex-col justify-center gap-2 text-[9px] font-bold">
+          <div className="flex gap-2 items-center">
+            <span className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 text-[7px]">1</span>
+            <span>Search latest AI research papers.</span>
           </div>
-          <div className="flex gap-3">
-            <span className="opacity-50">2.</span>
-            <span>Read summaries of top 3 papers.</span>
+          <div className="flex gap-2 items-center">
+            <span className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 text-[7px]">2</span>
+            <span>Read summaries of top 3.</span>
           </div>
-          <div className="flex gap-3">
-            <span className="opacity-50">3.</span>
-            <span>Extract key trends and benchmarks.</span>
+          <div className="flex gap-2 items-center">
+            <span className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 text-[7px]">3</span>
+            <span>Extract key trends & benchmarks.</span>
           </div>
-          <div className="flex gap-3">
-            <span className="opacity-50">4.</span>
-            <span>Generate a final summary.</span>
+          <div className="flex gap-2 items-center">
+            <span className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 text-[7px]">4</span>
+            <span>Generate final report.</span>
           </div>
-        </div>
-        <div className="mt-4 p-3 bg-white/10 rounded-2xl text-[9px] italic">
-          Executes each step sequentially using tools.
         </div>
       </div>
     </div>
@@ -2193,12 +2198,12 @@ export const ReasoningPatterns2 = () => (
 
 // --- 46. Agent Tech Stack ---
 export const AgentTechStack = () => (
-  <div className="w-full h-full bg-neutral-950 p-8 overflow-hidden relative">
+  <div className="w-full h-full bg-neutral-950 p-3 overflow-hidden relative flex items-center justify-center">
     <div className="absolute inset-0 opacity-10">
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 via-transparent to-transparent" />
     </div>
     
-    <div className="relative z-10 grid grid-cols-4 gap-4 h-full">
+    <div className="relative z-10 w-full grid grid-cols-2 gap-2">
       {[
         { title: "Frontend", items: ["Streamlit", "Gradio", "Next.js", "React"], color: "text-blue-400" },
         { title: "Memory", items: ["Memo", "Letta", "Zep", "Redis"], color: "text-purple-400" },
@@ -2211,15 +2216,15 @@ export const AgentTechStack = () => (
       ].map((stack, i) => (
         <motion.div 
           key={i}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.05 }}
-          className="p-4 bg-white/5 backdrop-blur border border-white/10 rounded-2xl flex flex-col gap-3"
+          className="p-2.5 bg-white/5 backdrop-blur border border-white/10 rounded-xl flex flex-col gap-1.5"
         >
-          <h4 className={`text-[10px] font-black uppercase tracking-widest ${stack.color}`}>{stack.title}</h4>
-          <div className="flex flex-wrap gap-1.5">
+          <h4 className={`text-[9px] font-black uppercase tracking-widest ${stack.color}`}>{stack.title}</h4>
+          <div className="flex flex-wrap gap-1">
             {stack.items.map((item, j) => (
-              <span key={j} className="px-2 py-0.5 bg-white/5 rounded-md text-[8px] text-white/70 border border-white/5">
+              <span key={j} className="px-1.5 py-0.5 bg-white/10 rounded text-[7px] font-medium text-white/80 border border-white/5">
                 {item}
               </span>
             ))}

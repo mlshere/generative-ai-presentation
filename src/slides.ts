@@ -73,11 +73,11 @@ export const slides: SlideData[] = [
     id: 6,
     header: "What is Machine Learning?",
     content: [
-      "A paradigm where algorithms learn patterns from data to make predictions or decisions, without being explicitly programmed for each case.",
+      "The algorithms learn patterns from data to make predictions or decisions, without being explicitly programmed for each case.",
       "Types of Learning:",
       "- Supervised Learning: Learns a mapping from inputs to outputs using labeled examples (classification, regression).",
       "- Unsupervised Learning: Discovers hidden structure in unlabeled data (clustering, dimensionality reduction).",
-      "- Reinforcement Learning: An agent learns a policy by interacting with an environment and maximizing cumulative reward."
+      "- Reinforcement Learning: An agent learns by interacting with an environment and being rewarded."
     ],
     visualType: 'ml-types',
     notes: "Most LLM pre-training is self-supervised (a form of unsupervised learning). RLHF (Reinforcement Learning from Human Feedback) is how models like GPT-4 and Claude are aligned to follow instructions."
@@ -88,8 +88,8 @@ export const slides: SlideData[] = [
     content: [
       "1. Data Preparation: Cleaning, normalization, handling missing values, and feature engineering.",
       "2. Data Splitting: Typically 70-80% training / 10-15% validation / 10-15% test (never leak test data into training).",
-      "3. Model Training: Fitting the model to training data using algorithms (e.g., gradient descent, decision trees, SVMs).",
-      "4. Evaluation: Measuring performance with appropriate metrics (accuracy, precision, recall, F1, AUC-ROC for classification; MSE, MAE, R² for regression)."
+      "3. Model Training: Fitting the model to training data using algorithms (e.g.decision trees).",
+      "4. Evaluation: Measuring performance with appropriate metrics (accuracy, precision, recall, R² for regression)."
     ],
     visualType: 'ml-building',
     notes: "A common mistake is skipping the validation set. Without it, you can't tune hyperparameters without contaminating your test evaluation. Always use a three-way split or cross-validation."
@@ -222,7 +222,7 @@ export const slides: SlideData[] = [
     content: [
       "Loading: Extracting text from PDFs, web pages, databases, or APIs using document loaders.",
       "Splitting: Breaking documents into semantically meaningful chunks with controlled overlap.",
-      "Strategies: RecursiveCharacterTextSplitter (default), token-based, semantic splitting, or markdown-aware splitting.",
+      "Strategies: RecursiveCharacterTextSplitter, token-based, semantic splitting, or markdown splitting.",
       "Chunk Size: Typically 500–1500 tokens — too small loses context, too large dilutes relevance."
     ],
     visualType: 'rag-indexing-1',
@@ -331,9 +331,8 @@ export const slides: SlideData[] = [
     id: 27,
     header: "Reasoning Patterns: ReAct & Plan-and-Execute",
     content: [
-      "ReAct (Reason + Act): Interleaves reasoning traces with tool actions — Think → Act → Observe → Repeat.",
-      "Plan-and-Execute: Generates a full plan upfront, then executes each step sequentially with optional re-planning.",
-      "Trade-off: ReAct is adaptive and handles dynamic tasks; Plan-and-Execute is more structured and token-efficient for well-defined workflows.",
+      "ReAct (Reason + Act): Combine reasoning with tool actions — Think → Act → Observe → Repeat. Adaptative and dynamic.",
+      "Plan-and-Execute: Generates a full plan upfront, then executes each step sequentially with optional re-planning. More structured and token-efficient.",
       "Use Cases: ReAct for interactive search and Q&A; Plan-and-Execute for multi-step research or report generation."
     ],
     visualType: 'reasoning-patterns-1',
@@ -353,13 +352,13 @@ export const slides: SlideData[] = [
   },
   {
     id: 29,
-    header: "The 2025 Agent Tech Stack",
+    header: "The Agent Tech Stack",
     content: [
       "Orchestration: LangGraph (stateful graphs), CrewAI (role-based agents), AutoGen (multi-agent conversations).",
-      "Memory: Zep (long-term memory), Mem0, Redis (fast session state).",
-      "Tools & Connectivity: MCP (Model Context Protocol), Tavily (AI search), browser automation.",
-      "Observability: LangSmith, Langfuse (open-source), Helicone, Arize Phoenix.",
-      "Infrastructure: Docker, Kubernetes, serverless functions, cloud LLM APIs (OpenAI, Anthropic, Google)."
+      "Memory: Zep (long-term memory), Redis (fast session state).",
+      "Tools & Connectivity: MCP (Model Context Protocol), browser automation.",
+      "Observability: LangSmith, Langfuse (open-source)",
+      "Infrastructure: Docker, Kubernetes, serverless functions, cloud LLM APIs (OpenAI, Google)."
     ],
     visualType: 'agent-tech-stack',
     notes: "The ecosystem is evolving rapidly. LangGraph has become the de facto standard for stateful agent orchestration. MCP is emerging as the universal protocol for tool connectivity."
@@ -525,7 +524,7 @@ export const slides: SlideData[] = [
       "Input: Raw supplier CSV with unstructured product data.",
       "Agent 1 (Writer): Extracts specifications, generates SEO-optimized descriptions in brand voice.",
       "Agent 2 (Critic): Validates against brand guidelines, checks for prohibited claims, and verifies SEO compliance.",
-      "Feedback Loop: If validation fails, the Writer agent regenerates with specific correction instructions.",
+      "Feedback Loop: If validation fails, the Writer agent regenerates with correction.",
       "Output: Production-ready Shopify product JSON with validated titles, descriptions, tags, and metadata."
     ],
     visualType: 'usecase',
