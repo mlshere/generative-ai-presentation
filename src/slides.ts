@@ -58,13 +58,13 @@ export const slides: SlideData[] = [
   },
   {
     id: 5,
-    header: "How an LLM Works: The Foundation",
+    header: "How an LLM Works",
     content: [
-      "Tokenization: Splitting raw text into sub-word units (tokens).",
-      "Embeddings: Mapping tokens to dense numerical vectors in a high-dimensional semantic space.",
-      "Transformer Architecture: The core engine using self-attention to capture long-range dependencies and contextual relationships.",
+      "Tokenization: Split raw text into sub-words (tokens).",
+      "Embeddings: Mapping tokens to numerical vectors in a high-dimensional semantic space.",
+      "Transformer Architecture: Uses self-attention to capture dependencies and contextual relationships.",
       "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction).",
-      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data (e.g., instruction tuning)."
+      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data."
     ],
     visualType: 'llm-process',
     notes: "The Transformer architecture (Vaswani et al., 2017) is the backbone of all modern LLMs. Self-attention allows the model to weigh the relevance of every token relative to every other token in the sequence."

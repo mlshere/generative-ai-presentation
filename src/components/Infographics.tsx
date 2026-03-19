@@ -1358,77 +1358,56 @@ export const OllamaServer = () => (
 
 // --- 30. LLM Process (Slide 5: LLM Process) ---
 export const LLMProcess = () => (
-  <div className="w-full h-full flex items-center justify-center bg-white overflow-hidden">
-    <svg viewBox="0 0 200 420" className="w-full h-full max-w-full max-h-full">
-      <defs>
-        <pattern id="llm-dots" width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="1" cy="1" r="1" fill="#000" opacity="0.03" />
-        </pattern>
-        <marker id="arr-v" viewBox="0 0 8 8" refX="4" refY="1" markerWidth="5" markerHeight="5" orient="auto">
-          <path d="M0 0 L4 8 L8 0z" fill="#d1d5db" />
-        </marker>
-      </defs>
-      <rect width="200" height="420" fill="url(#llm-dots)" />
+  <div className="w-full h-full flex flex-col items-center justify-center bg-white p-4 gap-2.5 overflow-hidden">
+    
+    {/* ── Step 1: Raw Text ── */}
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="w-28 h-14 bg-neutral-50 border-2 border-neutral-100 rounded-xl flex flex-col items-center justify-center gap-1.5 shadow-sm">
+        <div className="w-16 h-1.5 bg-neutral-200 rounded-full" />
+        <div className="w-12 h-1.5 bg-neutral-200 rounded-full" />
+        <div className="w-20 h-1.5 bg-neutral-200 rounded-full" />
+      </div>
+      <span className="text-[9px] font-black uppercase text-neutral-400 tracking-widest">Raw Text</span>
+    </div>
 
-      {/* ── Step 1: Raw Text ── */}
-      <rect x="60" y="8" width="80" height="64" rx="10" fill="#f9fafb" stroke="#e5e7eb" strokeWidth="1.5" />
-      {[0,1,2,3,4,5].map(i => (
-        <rect key={i} x="70" y={18 + i * 9} width={i % 2 === 0 ? 60 : 42} height="3" rx="1.5" fill="#e5e7eb" />
-      ))}
-      <text x="100" y="84" textAnchor="middle" fill="#9ca3af" fontSize="8" fontWeight="700" fontFamily="sans-serif" letterSpacing="0.5">RAW TEXT</text>
+    <ArrowRight size={14} className="text-neutral-300 rotate-90 flex-shrink-0" />
 
-      {/* Arrow 1 */}
-      <line x1="100" y1="92" x2="100" y2="108" stroke="#d1d5db" strokeWidth="1.5" markerEnd="url(#arr-v)" />
+    {/* ── Step 2: Tokens ── */}
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="w-32 h-14 bg-blue-50 border-2 border-blue-100 rounded-xl flex flex-wrap items-center justify-center gap-1.5 p-2 shadow-sm">
+        {["Hel", "lo", "Wor", "ld"].map((t, i) => (
+          <span key={i} className="px-2 py-0.5 bg-blue-600 rounded-md text-[9px] font-bold text-white font-mono shadow-sm">
+            {t}
+          </span>
+        ))}
+      </div>
+      <span className="text-[9px] font-black uppercase text-blue-600 tracking-widest">Tokens</span>
+    </div>
 
-      {/* ── Step 2: Tokens ── */}
-      <rect x="50" y="112" width="100" height="52" rx="10" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="1.5" />
-      {[["Hel","#2563eb"],["lo","#2563eb"],["Wor","#2563eb"],["ld","#2563eb"]].map(([t, c], i) => (
-        <g key={i}>
-          <rect x={57 + (i % 2) * 44} y={120 + Math.floor(i / 2) * 18} width={36} height={13} rx="4" fill={c as string} />
-          <text x={75 + (i % 2) * 44} y={130 + Math.floor(i / 2) * 18} textAnchor="middle" fill="white" fontSize="8" fontWeight="700" fontFamily="monospace">{t}</text>
-        </g>
-      ))}
-      <text x="100" y="176" textAnchor="middle" fill="#2563eb" fontSize="8" fontWeight="700" fontFamily="sans-serif" letterSpacing="0.5">TOKENS</text>
+    <ArrowRight size={14} className="text-neutral-300 rotate-90 flex-shrink-0" />
 
-      {/* Arrow 2 */}
-      <line x1="100" y1="182" x2="100" y2="198" stroke="#d1d5db" strokeWidth="1.5" markerEnd="url(#arr-v)" />
-
-      {/* ── Step 3: Transformer ── */}
-      <rect x="40" y="202" width="120" height="80" rx="20" fill="#171717" />
-      <circle cx="100" cy="252" r="36" fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15" />
-      <circle cx="100" cy="252" r="22" fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2" />
-      <foreignObject x="84" y="236" width="32" height="32">
-        <div
-          // @ts-ignore
-          xmlns="http://www.w3.org/1999/xhtml"
-          style={{ display:"flex", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}
-        >
-          <Cpu size={28} color="#60a5fa" />
+    {/* ── Step 3: Transformer ── */}
+    <div className="flex flex-col items-center gap-1">
+      <div className="w-36 h-20 bg-neutral-900 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden shadow-xl border border-neutral-800">
+        <div className="absolute inset-0 flex items-center justify-center opacity-30">
+          <div className="w-28 h-28 border border-white border-dashed rounded-full" />
+          <div className="w-16 h-16 border border-white border-dashed rounded-full absolute" />
         </div>
-      </foreignObject>
-      <text x="100" y="276" textAnchor="middle" fill="white" fontSize="7.5" fontWeight="900" fontFamily="sans-serif" letterSpacing="0.5">TRANSFORMER</text>
-      <circle cx="90" cy="288" r="2.5" fill="#60a5fa" opacity="0.8" />
-      <circle cx="100" cy="288" r="2.5" fill="#60a5fa" opacity="0.55" />
-      <circle cx="110" cy="288" r="2.5" fill="#60a5fa" opacity="0.3" />
+        <Cpu size={28} className="text-blue-400 z-10" />
+      </div>
+      <span className="text-[9px] font-black uppercase text-neutral-900 tracking-widest mt-1">Transformer</span>
+    </div>
 
-      {/* Arrow 3 */}
-      <line x1="100" y1="306" x2="100" y2="322" stroke="#d1d5db" strokeWidth="1.5" markerEnd="url(#arr-v)" />
+    <ArrowRight size={14} className="text-neutral-300 rotate-90 flex-shrink-0" />
 
-      {/* ── Step 4: Fine-tuned output ── */}
-      <rect x="60" y="326" width="80" height="68" rx="10" fill="#f0fdf4" stroke="#bbf7d0" strokeWidth="1.5" />
-      <foreignObject x="84" y="334" width="32" height="28">
-        <div
-          // @ts-ignore
-          xmlns="http://www.w3.org/1999/xhtml"
-          style={{ display:"flex", alignItems:"center", justifyContent:"center", width:"100%", height:"100%" }}
-        >
-          <Trophy size={22} color="#16a34a" />
-        </div>
-      </foreignObject>
-      <rect x="68" y="366" width="64" height="3" rx="1.5" fill="#bbf7d0" />
-      <rect x="74" y="374" width="52" height="3" rx="1.5" fill="#bbf7d0" />
-      <text x="100" y="406" textAnchor="middle" fill="#16a34a" fontSize="8" fontWeight="700" fontFamily="sans-serif" letterSpacing="0.5">FINE-TUNED</text>
-    </svg>
+    {/* ── Step 4: Fine-tuned ── */}
+    <div className="flex flex-col items-center gap-1.5">
+      <div className="w-28 h-14 bg-green-50 border-2 border-green-100 rounded-xl flex items-center justify-center shadow-sm">
+        <Trophy size={20} className="text-green-600" />
+      </div>
+      <span className="text-[9px] font-black uppercase text-green-600 tracking-widest">Fine-Tuned</span>
+    </div>
+
   </div>
 );
 
