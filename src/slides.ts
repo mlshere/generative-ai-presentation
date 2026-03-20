@@ -58,19 +58,6 @@ export const slides: SlideData[] = [
   },
   {
     id: 5,
-    header: "How an LLM Works",
-    content: [
-      "Tokenization: Split raw text into sub-words (tokens).",
-      "Embeddings: Mapping tokens to numerical vectors in a high-dimensional semantic space.",
-      "Transformer Architecture: Uses self-attention to capture dependencies and contextual relationships.",
-      "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction).",
-      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data."
-    ],
-    visualType: 'llm-process',
-    notes: "The Transformer architecture (Vaswani et al., 2017) is the backbone of all modern LLMs. Self-attention allows the model to weigh the relevance of every token relative to every other token in the sequence."
-  },
-  {
-    id: 6,
     header: "What is Machine Learning?",
     content: [
       "The algorithms learn patterns from data to make predictions or decisions, without being explicitly programmed for each case.",
@@ -83,7 +70,7 @@ export const slides: SlideData[] = [
     notes: "Most LLM pre-training is self-supervised (a form of unsupervised learning). RLHF (Reinforcement Learning from Human Feedback) is how models like GPT-4 and Claude are aligned to follow instructions."
   },
   {
-    id: 7,
+    id: 6,
     header: "Building a Machine Learning Model",
     content: [
       "1. Data Preparation: Cleaning, normalization, handling missing values, and feature engineering.",
@@ -95,7 +82,7 @@ export const slides: SlideData[] = [
     notes: "A common mistake is skipping the validation set. Without it, you can't tune hyperparameters without contaminating your test evaluation. Always use a three-way split or cross-validation."
   },
   {
-    id: 8,
+    id: 7,
     header: "Machine Learning vs. Deep Learning",
     content: [
       "Machine Learning: Relies on manual feature engineering — domain experts must design and select relevant input features before the model can learn.",
@@ -104,6 +91,19 @@ export const slides: SlideData[] = [
     ],
     visualType: 'ml-vs-dl',
     notes: "Traditional ML still outperforms DL on small, structured datasets (tabular data). DL shines when you have large volumes of unstructured data and the compute budget to train on it."
+  },
+  {
+    id: 8,
+    header: "How an LLM Works",
+    content: [
+      "Tokenization: Split raw text into sub-words (tokens).",
+      "Embeddings: Mapping tokens to numerical vectors in a high-dimensional semantic space.",
+      "Transformer Architecture: Uses self-attention to capture dependencies and contextual relationships.",
+      "Pre-training: Unsupervised learning of language patterns from massive corpora (next-token prediction).",
+      "Fine-tuning: Supervised adaptation to specific tasks or domains using labeled data."
+    ],
+    visualType: 'llm-process',
+    notes: "The Transformer architecture (Vaswani et al., 2017) is the backbone of all modern LLMs. Self-attention allows the model to weigh the relevance of every token relative to every other token in the sequence."
   },
   {
     id: 9,
@@ -143,15 +143,16 @@ export const slides: SlideData[] = [
   },
   {
     id: 12,
-    header: "Ollama: Local LLM Hosting",
+    header: "LLM Lifecycle: The Complete Pipeline",
     content: [
-      "Run open-weight models (Llama 3, Mistral, Phi-3, Gemma) locally on your machine.",
-      "Simple CLI: `ollama run llama3` to pull and interact with a model.",
-      "OpenAI-compatible REST API: Drop-in replacement for cloud LLMs, integrates directly with LangChain.",
-      "Benefits: Data stays on-premises, zero per-token costs, full control over model versions and quantization."
+      "Data Collection & Curation: Gathering, deduplicating, and filtering high-quality text corpora.",
+      "Tokenization & Embedding: Building the vocabulary and learning initial vector representations.",
+      "Pre-training: Self-supervised training (next-token prediction) on massive compute clusters.",
+      "Alignment: Instruction tuning (SFT), reward modeling, and RLHF/DPO to align with human preferences.",
+      "Deployment & Monitoring: Serving via APIs, monitoring latency, token usage, hallucination rates, and drift."
     ],
-    visualType: 'ollama',
-    notes: "Ollama uses quantized models (GGUF format via llama.cpp) to run large models on consumer hardware. For production, consider vLLM or TGI for higher throughput."
+    visualType: 'llm-works-detailed',
+    notes: "The alignment phase is what separates a raw language model from a useful assistant. Without RLHF or DPO, the model will generate plausible text but won't reliably follow instructions."
   },
   {
     id: 13,
@@ -168,19 +169,6 @@ export const slides: SlideData[] = [
   },
   {
     id: 14,
-    header: "LLM Lifecycle: The Complete Pipeline",
-    content: [
-      "Data Collection & Curation: Gathering, deduplicating, and filtering high-quality text corpora.",
-      "Tokenization & Embedding: Building the vocabulary and learning initial vector representations.",
-      "Pre-training: Self-supervised training (next-token prediction) on massive compute clusters.",
-      "Alignment: Instruction tuning (SFT), reward modeling, and RLHF/DPO to align with human preferences.",
-      "Deployment & Monitoring: Serving via APIs, monitoring latency, token usage, hallucination rates, and drift."
-    ],
-    visualType: 'llm-works-detailed',
-    notes: "The alignment phase is what separates a raw language model from a useful assistant. Without RLHF or DPO, the model will generate plausible text but won't reliably follow instructions."
-  },
-  {
-    id: 15,
     header: "Three Tiers of LLM Applications",
     content: [
       "1. LLM (Prompt-only): Stateless, no external data — limited to the model's training knowledge (knowledge cutoff applies).",
@@ -191,7 +179,7 @@ export const slides: SlideData[] = [
     notes: "Each tier adds capability but also complexity. Most production applications need at least RAG to overcome the knowledge cutoff limitation."
   },
   {
-    id: 16,
+    id: 15,
     header: "Retrieval-Augmented Generation (RAG)",
     content: [
       "1. User Query: The user submits a question or request.",
@@ -204,7 +192,7 @@ export const slides: SlideData[] = [
     notes: "RAG solves two fundamental LLM limitations: knowledge cutoff (the model doesn't know about recent events) and hallucination (the model can confidently state incorrect facts). By injecting retrieved evidence, we ground the generation in real data."
   },
   {
-    id: 17,
+    id: 16,
     header: "Detailed RAG Architecture",
     content: [
       "1. Query Processing: Parse, expand, or rewrite the user query for better retrieval.",
@@ -217,7 +205,7 @@ export const slides: SlideData[] = [
     notes: "Adding a reranker between retrieval and generation significantly improves answer quality. Dense retrieval (embeddings) catches semantic similarity, while sparse retrieval (BM25) catches exact keyword matches — hybrid combines both."
   },
   {
-    id: 18,
+    id: 17,
     header: "Indexing Pipeline: Load & Split",
     content: [
       "Loading: Extracting text from PDFs, web pages, databases, or APIs using document loaders.",
@@ -229,7 +217,7 @@ export const slides: SlideData[] = [
     notes: "Chunking strategy is one of the most impactful decisions in a RAG pipeline. Overlap (e.g., 200 tokens) ensures that concepts split across chunk boundaries are still retrievable."
   },
   {
-    id: 19,
+    id: 18,
     header: "Indexing Pipeline: Embed & Store",
     content: [
       "Embedding Models: OpenAI (text-embedding-3-small/large), Cohere embed-v3, or open-source (BGE, E5, GTE).",
@@ -241,7 +229,7 @@ export const slides: SlideData[] = [
     notes: "The choice of embedding model matters more than the choice of vector database. Always evaluate embedding quality on your specific domain data before committing."
   },
   {
-    id: 20,
+    id: 19,
     header: "Vector Database Landscape",
     content: [
       "Purpose-built Vector DBs: Pinecone (managed), Weaviate (hybrid search), Milvus (scalable), Chroma (lightweight), Qdrant (Rust-based).",
@@ -253,7 +241,7 @@ export const slides: SlideData[] = [
     notes: "If you already run PostgreSQL, pgvector is a pragmatic starting point. For large-scale production with billions of vectors, purpose-built solutions like Pinecone or Milvus are more appropriate."
   },
   {
-    id: 21,
+    id: 20,
     header: "Advanced RAG Patterns",
     content: [
       "Naive RAG: Simple retrieve-and-generate — fast but limited by single-pass retrieval quality.",
@@ -265,106 +253,7 @@ export const slides: SlideData[] = [
     notes: "As query complexity increases, simple vector similarity search becomes insufficient. GraphRAG excels at questions that require connecting multiple pieces of information across documents."
   },
   {
-    id: 22,
-    header: "Evolution of AI Applications",
-    content: [
-      "Text Processing: Simple LLM calls — Text In → Text Out.",
-      "Document Intelligence: Summarization, extraction, and classification.",
-      "RAG Systems: Grounding responses with external knowledge retrieval.",
-      "Multi-Modal: Processing and generating across text, images, audio, and video.",
-      "Agentic Systems: Autonomous reasoning, tool use, memory, and multi-step planning."
-    ],
-    visualType: 'agent-evolution',
-    notes: "We're at an inflection point where AI applications are moving from passive (answering questions) to active (taking actions). Each step adds capabilities but also failure modes that need to be managed."
-  },
-  {
-    id: 23,
-    header: "The Anatomy of an AI Agent",
-    content: [
-      "Task / User Request: The input that triggers the agent's execution loop.",
-      "LLM (Brain): The reasoning engine that interprets the task and decides what to do next.",
-      "Tools: External capabilities the agent can invoke (APIs, databases, code execution, web search).",
-      "Memory: Short-term (conversation context) and long-term (persisted knowledge in vector stores).",
-      "Planning: The ability to decompose complex goals into ordered sub-tasks and adjust the plan based on intermediate results."
-    ],
-    visualType: 'agent-anatomy-pdf',
-    notes: "An agent is fundamentally a loop: Observe → Think → Act → Observe. The LLM provides the 'Think' step, tools provide the 'Act' step, and memory provides continuity across iterations."
-  },
-  {
-    id: 24,
-    header: "How Agents Think, Remember, and Act",
-    content: [
-      "Perception: Processing multi-modal inputs — text, structured data, images, or audio.",
-      "Memory: Working memory (current context window) and persistent memory (vector stores, databases for long-term recall).",
-      "Planning: Task decomposition, self-reflection, chain-of-thought reasoning, and plan revision.",
-      "Action Execution: Invoking tools — API calls, database queries, web searches, code execution, or file operations."
-    ],
-    visualType: 'agent-thinking-process',
-    notes: "The agent loop (perceive → reason → act → observe) is inspired by cognitive architectures. The key challenge is grounding — ensuring the agent's actions are based on real data, not hallucinated reasoning."
-  },
-  {
-    id: 25,
-    header: "Agentic RAG Workflow",
-    content: [
-      "Dynamic Retrieval: The agent decides when, what, and how to query — not every request needs retrieval.",
-      "Multi-source Knowledge: Routing queries to the appropriate store — vector DB, knowledge graph, SQL database, or live API.",
-      "Tool Calling: The LLM generates structured tool-call requests that are executed by the runtime.",
-      "Iterative Refinement: The agent can evaluate retrieved results and re-query if the initial retrieval is insufficient."
-    ],
-    visualType: 'agentic-rag-flow',
-    notes: "Agentic RAG is a significant step beyond naive RAG. The agent can reason about whether it has enough information, query multiple sources, and synthesize across them — mimicking how a human researcher works."
-  },
-  {
-    id: 26,
-    header: "Key Concepts in Agentic Systems",
-    content: [
-      "Statefulness: Maintaining context across multiple interactions and tool calls within a session.",
-      "Self-Reflection: The agent evaluates its own outputs and can detect and correct errors before responding.",
-      "Autonomy: Operating with minimal human intervention while respecting defined guardrails.",
-      "Task Decomposition: Breaking complex goals into a sequence of achievable sub-tasks.",
-      "Agent Loop: Observe → Reason → Act → Evaluate → Repeat until the goal is achieved or a stop condition is met."
-    ],
-    visualType: 'agent-terms',
-    notes: "The degree of autonomy is a design decision. In production, you almost always want guardrails — budget limits, tool allowlists, human-in-the-loop checkpoints for high-stakes actions."
-  },
-  {
-    id: 27,
-    header: "Reasoning Patterns: ReAct & Plan-and-Execute",
-    content: [
-      "ReAct (Reason + Act): Combine reasoning with tool actions — Think → Act → Observe → Repeat. Adaptative and dynamic.",
-      "Plan-and-Execute: Generates a full plan upfront, then executes each step sequentially with optional re-planning. More structured and token-efficient.",
-      "Use Cases: ReAct for interactive search and Q&A; Plan-and-Execute for multi-step research or report generation."
-    ],
-    visualType: 'reasoning-patterns-1',
-    notes: "ReAct (Yao et al., 2022) is the most widely adopted pattern. Plan-and-Execute works better when the task has clear sub-steps and you want to minimize redundant LLM calls."
-  },
-  {
-    id: 28,
-    header: "Reasoning Patterns: Zero-shot & Self-Ask",
-    content: [
-      "Zero-shot Tool Use: The LLM directly selects and invokes a tool in a single step — no iterative reasoning needed.",
-      "Self-Ask: The LLM recursively generates and answers sub-questions to build up to the final answer.",
-      "Compositional Reasoning: Self-Ask excels at multi-hop questions that require chaining facts from different sources.",
-      "When to Use: Zero-shot for simple, direct tasks; Self-Ask for complex queries requiring multi-step evidence gathering."
-    ],
-    visualType: 'reasoning-patterns-2',
-    notes: "Not every query needs a full ReAct loop. Zero-shot tool use has the lowest latency. Self-Ask is particularly powerful when combined with a search tool for fact-checking chains."
-  },
-  {
-    id: 29,
-    header: "The Agent Tech Stack",
-    content: [
-      "Orchestration: LangGraph (stateful graphs), CrewAI (role-based agents), AutoGen (multi-agent conversations).",
-      "Memory: Zep (long-term memory), Redis (fast session state).",
-      "Tools & Connectivity: MCP (Model Context Protocol), browser automation.",
-      "Observability: LangSmith, Langfuse (open-source)",
-      "Infrastructure: Docker, Kubernetes, serverless functions, cloud LLM APIs (OpenAI, Google)."
-    ],
-    visualType: 'agent-tech-stack',
-    notes: "The ecosystem is evolving rapidly. LangGraph has become the de facto standard for stateful agent orchestration. MCP is emerging as the universal protocol for tool connectivity."
-  },
-  {
-    id: 30,
+    id: 21,
     header: "What is LangChain?",
     content: [
       "Open-source framework for building LLM apps with composable, swappable components.",
@@ -377,7 +266,7 @@ export const slides: SlideData[] = [
     notes: "LangChain's main value is abstraction and composability. It lets you swap components (e.g., switch from OpenAI to Anthropic) without rewriting your application logic."
   },
   {
-    id: 31,
+    id: 22,
     header: "Prompt Templates",
     content: [
       "Parameterized prompts that separate structure from data — enabling reuse and consistency.",
@@ -387,7 +276,7 @@ export const slides: SlideData[] = [
     notes: "Always use prompt templates instead of string concatenation. They provide validation, versioning, and make it easy to test different prompt strategies."
   },
   {
-    id: 32,
+    id: 23,
     header: "LangChain Expression Language (LCEL)",
     content: [
       "LCEL is a declarative syntax for composing LangChain components into pipelines without writing boilerplate glue code.",
@@ -398,7 +287,7 @@ export const slides: SlideData[] = [
     notes: "LCEL replaced the legacy Chain classes. Every LCEL chain automatically supports streaming, batching, and async — you get production features for free."
   },
   {
-    id: 33,
+    id: 24,
     header: "Output Parsers: Structured Data",
     content: [
       "Converting unstructured LLM text output into typed, validated data structures.",
@@ -408,7 +297,7 @@ export const slides: SlideData[] = [
     notes: "Output parsers inject formatting instructions into the prompt and validate the response. If parsing fails, you can use OutputFixingParser to automatically retry with the error context."
   },
   {
-    id: 34,
+    id: 25,
     header: "Document Loaders: Ingesting Data",
     content: [
       "File-Based: PDF, CSV, JSON, HTML, Markdown.",
@@ -421,7 +310,7 @@ export const slides: SlideData[] = [
     notes: "The quality of your RAG system is directly proportional to the quality of your data ingestion. Garbage in, garbage out — invest time in proper loading, cleaning, and metadata extraction."
   },
   {
-    id: 35,
+    id: 26,
     header: "Memory: Maintaining Conversational State",
     content: [
       "BufferMemory: Stores the full conversation history, simple but grows unbounded.",
@@ -434,7 +323,7 @@ export const slides: SlideData[] = [
     notes: "Memory strategy directly impacts both cost and quality. For most production applications, a hybrid approach works best: keep recent messages in a buffer, and store/retrieve older context from a vector store."
   },
   {
-    id: 36,
+    id: 27,
     header: "The Limitation of Linear Chains",
     content: [
       "DAGs (Directed Acyclic Graphs): LCEL chains are fundamentally acyclic — data flows in one direction.",
@@ -444,6 +333,118 @@ export const slides: SlideData[] = [
     visualType: 'chains',
     notes: "This is the key motivation for LangGraph. When your workflow needs to say 'if the output is invalid, go back and try again,' you've outgrown linear chains."
   },
+  {
+    id: 28,
+    header: "Ollama: Local LLM Hosting",
+    content: [
+      "Run open-weight models (Llama 3, Mistral, Phi-3, Gemma) locally on your machine.",
+      "Simple CLI: `ollama run llama3` to pull and interact with a model.",
+      "OpenAI-compatible REST API: Drop-in replacement for cloud LLMs, integrates directly with LangChain.",
+      "Benefits: Data stays on-premises, zero per-token costs, full control over model versions and quantization."
+    ],
+    visualType: 'ollama',
+    notes: "Ollama uses quantized models (GGUF format via llama.cpp) to run large models on consumer hardware. For production, consider vLLM or TGI for higher throughput."
+  },
+  {
+    id: 29,
+    header: "Evolution of AI Applications",
+    content: [
+      "Text Processing: Simple LLM calls — Text In → Text Out.",
+      "Document Intelligence: Summarization, extraction, and classification.",
+      "RAG Systems: Grounding responses with external knowledge retrieval.",
+      "Multi-Modal: Processing and generating across text, images, audio, and video.",
+      "Agentic Systems: Autonomous reasoning, tool use, memory, and multi-step planning."
+    ],
+    visualType: 'agent-evolution',
+    notes: "We're at an inflection point where AI applications are moving from passive (answering questions) to active (taking actions). Each step adds capabilities but also failure modes that need to be managed."
+  },
+  {
+    id: 30,
+    header: "The Anatomy of an AI Agent",
+    content: [
+      "Task / User Request: The input that triggers the agent's execution loop.",
+      "LLM (Brain): The reasoning engine that interprets the task and decides what to do next.",
+      "Tools: External capabilities the agent can invoke (APIs, databases, code execution, web search).",
+      "Memory: Short-term (conversation context) and long-term (persisted knowledge in vector stores).",
+      "Planning: The ability to decompose complex goals into ordered sub-tasks and adjust the plan based on intermediate results."
+    ],
+    visualType: 'agent-anatomy-pdf',
+    notes: "An agent is fundamentally a loop: Observe → Think → Act → Observe. The LLM provides the 'Think' step, tools provide the 'Act' step, and memory provides continuity across iterations."
+  },
+  {
+    id: 31,
+    header: "How Agents Think, Remember, and Act",
+    content: [
+      "Perception: Processing multi-modal inputs — text, structured data, images, or audio.",
+      "Memory: Working memory (current context window) and persistent memory (vector stores, databases for long-term recall).",
+      "Planning: Task decomposition, self-reflection, chain-of-thought reasoning, and plan revision.",
+      "Action Execution: Invoking tools — API calls, database queries, web searches, code execution, or file operations."
+    ],
+    visualType: 'agent-thinking-process',
+    notes: "The agent loop (perceive → reason → act → observe) is inspired by cognitive architectures. The key challenge is grounding — ensuring the agent's actions are based on real data, not hallucinated reasoning."
+  },
+  {
+    id: 32,
+    header: "Key Concepts in Agentic Systems",
+    content: [
+      "Statefulness: Maintaining context across multiple interactions and tool calls within a session.",
+      "Self-Reflection: The agent evaluates its own outputs and can detect and correct errors before responding.",
+      "Autonomy: Operating with minimal human intervention while respecting defined guardrails.",
+      "Task Decomposition: Breaking complex goals into a sequence of achievable sub-tasks.",
+      "Agent Loop: Observe → Reason → Act → Evaluate → Repeat until the goal is achieved or a stop condition is met."
+    ],
+    visualType: 'agent-terms',
+    notes: "The degree of autonomy is a design decision. In production, you almost always want guardrails — budget limits, tool allowlists, human-in-the-loop checkpoints for high-stakes actions."
+  },
+  {
+    id: 33,
+    header: "Agentic RAG Workflow",
+    content: [
+      "Dynamic Retrieval: The agent decides when, what, and how to query — not every request needs retrieval.",
+      "Multi-source Knowledge: Routing queries to the appropriate store — vector DB, knowledge graph, SQL database, or live API.",
+      "Tool Calling: The LLM generates structured tool-call requests that are executed by the runtime.",
+      "Iterative Refinement: The agent can evaluate retrieved results and re-query if the initial retrieval is insufficient."
+    ],
+    visualType: 'agentic-rag-flow',
+    notes: "Agentic RAG is a significant step beyond naive RAG. The agent can reason about whether it has enough information, query multiple sources, and synthesize across them — mimicking how a human researcher works."
+  },
+  {
+    id: 34,
+    header: "Reasoning Patterns: ReAct & Plan-and-Execute",
+    content: [
+      "ReAct (Reason + Act): Combine reasoning with tool actions — Think → Act → Observe → Repeat. Adaptative and dynamic.",
+      "Plan-and-Execute: Generates a full plan upfront, then executes each step sequentially with optional re-planning. More structured and token-efficient.",
+      "Use Cases: ReAct for interactive search and Q&A; Plan-and-Execute for multi-step research or report generation."
+    ],
+    visualType: 'reasoning-patterns-1',
+    notes: "ReAct (Yao et al., 2022) is the most widely adopted pattern. Plan-and-Execute works better when the task has clear sub-steps and you want to minimize redundant LLM calls."
+  },
+  {
+    id: 35,
+    header: "Reasoning Patterns: Zero-shot & Self-Ask",
+    content: [
+      "Zero-shot Tool Use: The LLM directly selects and invokes a tool in a single step — no iterative reasoning needed.",
+      "Self-Ask: The LLM recursively generates and answers sub-questions to build up to the final answer.",
+      "Compositional Reasoning: Self-Ask excels at multi-hop questions that require chaining facts from different sources.",
+      "When to Use: Zero-shot for simple, direct tasks; Self-Ask for complex queries requiring multi-step evidence gathering."
+    ],
+    visualType: 'reasoning-patterns-2',
+    notes: "Not every query needs a full ReAct loop. Zero-shot tool use has the lowest latency. Self-Ask is particularly powerful when combined with a search tool for fact-checking chains."
+  },
+  {
+    id: 36,
+    header: "The Agent Tech Stack",
+    content: [
+      "Orchestration: LangGraph (stateful graphs), CrewAI (role-based agents), AutoGen (multi-agent conversations).",
+      "Memory: Zep (long-term memory), Redis (fast session state).",
+      "Tools & Connectivity: MCP (Model Context Protocol), browser automation.",
+      "Observability: LangSmith, Langfuse (open-source)",
+      "Infrastructure: Docker, Kubernetes, serverless functions, cloud LLM APIs (OpenAI, Google)."
+    ],
+    visualType: 'agent-tech-stack',
+    notes: "The ecosystem is evolving rapidly. LangGraph has become the de facto standard for stateful agent orchestration. MCP is emerging as the universal protocol for tool connectivity."
+  },
+  
   {
     id: 37,
     header: "LangGraph: Stateful Agent Orchestration",
@@ -544,7 +545,7 @@ export const slides: SlideData[] = [
   },
   {
     id: 45,
-    header: "The Road Ahead",
+    header: "Possible Implementations",
     content: [
       "Product Catalog: Agents that auto-generate SEO descriptions, tags, and metadata from raw supplier data.",
       "Customer Support: Intent classification + specialized agents for returns, tracking, and product questions.",
@@ -563,3 +564,5 @@ export const slides: SlideData[] = [
     notes: "Thank you for your time. Happy to answer any questions about implementing these patterns in our ecommerce stack."
   }
 ];
+
+
