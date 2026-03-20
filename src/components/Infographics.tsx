@@ -202,29 +202,97 @@ export const HallucinationChart = () => (
 
 // --- 5. Tiers (Slide 5: Implementation) ---
 export const TiersComparison = () => (
-  <div className="w-full h-full flex items-center justify-center bg-white p-8">
-    <div className="flex flex-col gap-4 w-full max-w-md">
-      {[
-        { title: "LLM (Static)", color: "bg-neutral-100", text: "text-neutral-500", icon: Cpu },
-        { title: "RAG (Knowledge)", color: "bg-blue-100", text: "text-blue-600", icon: Database },
-        { title: "Agent (Autonomous)", color: "bg-blue-600", text: "text-white", icon: BrainCircuit, active: true }
-      ].map((tier, i) => (
-        <motion.div 
-          key={i}
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: i * 0.2 }}
-          className={`p-6 rounded-2xl flex items-center justify-between shadow-sm border border-neutral-100 ${tier.color} ${tier.text}`}
-        >
-          <div className="flex items-center gap-4">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tier.active ? 'bg-blue-500' : 'bg-white'}`}>
-              <tier.icon size={20} />
+  <div className="w-full h-full flex flex-col items-center justify-center bg-white p-3 overflow-hidden">
+    <div className="w-full flex flex-col gap-2">
+      {/* Header */}
+      <div className="flex items-center justify-center gap-2 mb-1">
+        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+          <FileText size={16} className="text-white" />
+        </div>
+        <span className="text-xs font-black text-neutral-900 uppercase tracking-wider">Data Ingestion</span>
+      </div>
+
+      {/* Loader Categories */}
+      <div className="grid grid-cols-2 gap-2">
+        {[
+          { 
+            title: "File-Based", 
+            icon: FileCode, 
+            color: "bg-blue-50", 
+            border: "border-blue-200", 
+            iconColor: "text-blue-600",
+            items: ["PDF", "CSV", "JSON", "HTML", "Markdown"]
+          },
+          { 
+            title: "Web Loaders", 
+            icon: Globe, 
+            color: "bg-emerald-50", 
+            border: "border-emerald-200", 
+            iconColor: "text-emerald-600",
+            items: ["URLs", "Puppeteer", "Sitemap", "RSS"]
+          },
+          { 
+            title: "Cloud & SaaS", 
+            icon: Share2, 
+            color: "bg-purple-50", 
+            border: "border-purple-200", 
+            iconColor: "text-purple-600",
+            items: ["Google Drive", "Notion", "Slack", "GitHub"]
+          },
+          { 
+            title: "Databases", 
+            icon: Database, 
+            color: "bg-amber-50", 
+            border: "border-amber-200", 
+            iconColor: "text-amber-600",
+            items: ["SQL", "MongoDB", "Elasticsearch"]
+          }
+        ].map((cat, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            className={`p-2.5 ${cat.color} rounded-xl border ${cat.border} flex flex-col gap-2`}
+          >
+            <div className="flex items-center gap-2">
+              <div className={`w-7 h-7 bg-white rounded-lg flex items-center justify-center shadow-sm ${cat.iconColor}`}>
+                <cat.icon size={14} />
+              </div>
+              <span className="text-[9px] font-black uppercase tracking-wider text-neutral-800">{cat.title}</span>
             </div>
-            <span className="font-bold">{tier.title}</span>
-          </div>
-          {tier.active && <Zap size={20} className="text-yellow-400 animate-pulse" />}
-        </motion.div>
-      ))}
+            <div className="flex flex-wrap gap-1">
+              {cat.items.map((item, j) => (
+                <span key={j} className="px-1.5 py-0.5 bg-white rounded text-[7px] font-bold text-neutral-600 border border-neutral-200 shadow-sm">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Custom Loader */}
+      <div className="p-2 bg-neutral-900 rounded-xl flex items-center gap-2.5">
+        <div className="w-7 h-7 bg-neutral-800 rounded-lg flex items-center justify-center flex-shrink-0">
+          <Code size={14} className="text-blue-400" />
+        </div>
+        <div>
+          <span className="text-[8px] font-black text-white uppercase tracking-wider">Custom Loaders</span>
+          <p className="text-[7px] text-neutral-500 leading-tight">Extend BaseLoader for proprietary sources & internal APIs</p>
+        </div>
+      </div>
+
+      {/* Pipeline arrow */}
+      <div className="flex items-center justify-center gap-2">
+        <span className="text-[7px] font-bold text-neutral-400 uppercase tracking-widest">Load</span>
+        <ArrowRight size={10} className="text-neutral-300" />
+        <span className="text-[7px] font-bold text-neutral-400 uppercase tracking-widest">Split</span>
+        <ArrowRight size={10} className="text-neutral-300" />
+        <span className="text-[7px] font-bold text-neutral-400 uppercase tracking-widest">Embed</span>
+        <ArrowRight size={10} className="text-neutral-300" />
+        <span className="text-[7px] font-bold text-blue-600 uppercase tracking-widest">Store</span>
+      </div>
     </div>
   </div>
 );
@@ -1459,196 +1527,246 @@ export const PromptAnatomy = () => (
 );
 
 // --- 32. LLM Works Detailed (Slide 14: How LLM Works) ---
-export const LLMWorksDetailed = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-white p-3 overflow-hidden">
-    <div className="w-full space-y-2">
-      <h3 className="text-center font-black text-base text-red-700 uppercase tracking-tighter">How LLM Works</h3>
-      
-      <div className="grid grid-cols-5 gap-1.5 relative">
-        {/* Row 1: Red Path */}
-        {[
-          { title: "Data Collection", desc: "Gather vast text data.", icon: Database, color: "bg-red-700" },
-          { title: "Data Cleaning", desc: "Remove personal info.", icon: Wrench, color: "bg-red-700" },
-          { title: "Categorization", desc: "Classify text.", icon: Filter, color: "bg-red-700" },
-          { title: "Tokenization", desc: "Break into tokens.", icon: Scissors, color: "bg-red-700" },
-          { title: "Vocabulary", desc: "Create word list.", icon: BookOpen, color: "bg-red-700" }
-        ].map((item, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <div className={`w-full p-1.5 ${item.color} text-white rounded-t-lg flex flex-col items-center gap-0.5`}>
-              <item.icon size={12} />
-              <span className="text-[7px] font-black uppercase text-center leading-tight">{item.title}</span>
-            </div>
-            <div className="w-full p-1 bg-white border-x border-b border-neutral-100 rounded-b-lg flex items-center justify-center text-center h-8">
-              <p className="text-[7px] font-bold text-neutral-600 leading-tight">{item.desc}</p>
-            </div>
-          </div>
-        ))}
+export const LLMWorksDetailed = () => {
+  const rows = [
+    {
+      items: [
+        { title: "Data Collection", desc: "Gather vast text data.", icon: Database, color: "bg-red-700" },
+        { title: "Data Cleaning", desc: "Remove duplicates.", icon: Wrench, color: "bg-red-700" },
+        { title: "Categorization", desc: "Classify text types.", icon: Filter, color: "bg-red-700" },
+        { title: "Tokenization", desc: "Break into tokens.", icon: Scissors, color: "bg-red-700" },
+        { title: "Vocabulary", desc: "Build word list.", icon: BookOpen, color: "bg-red-700" }
+      ],
+      direction: "right" as const,
+      label: "Data Preparation",
+      labelColor: "text-red-600"
+    },
+    {
+      items: [
+        { title: "Embedding", desc: "Create vectors.", icon: Layers, color: "bg-cyan-700" },
+        { title: "Model Build", desc: "Neural network.", icon: Cpu, color: "bg-cyan-700" },
+        { title: "Pre-training", desc: "Next-token pred.", icon: Brain, color: "bg-cyan-700" },
+        { title: "SFT", desc: "Instruction tuning.", icon: Users, color: "bg-cyan-700" },
+        { title: "Demo Data", desc: "Human examples.", icon: FileText, color: "bg-cyan-700" }
+      ],
+      direction: "left" as const,
+      label: "Model Training",
+      labelColor: "text-cyan-600"
+    },
+    {
+      items: [
+        { title: "Reward Model", desc: "Rank outputs.", icon: Trophy, color: "bg-purple-700" },
+        { title: "RLHF / DPO", desc: "Align to prefs.", icon: Zap, color: "bg-purple-700" },
+        { title: "Testing", desc: "Eval & benchmark.", icon: ShieldCheck, color: "bg-purple-700" },
+        { title: "Deployment", desc: "Serve via API.", icon: Server, color: "bg-purple-700" },
+        { title: "Monitoring", desc: "Track & iterate.", icon: Gauge, color: "bg-emerald-700" }
+      ],
+      direction: "right" as const,
+      label: "Alignment & Deploy",
+      labelColor: "text-purple-600"
+    }
+  ];
 
-        {/* Row 2: Teal Path */}
-        {[
-          { title: "Embedding", desc: "Create vectors", icon: Layers, color: "bg-cyan-700" },
-          { title: "Model Build", desc: "Neural network.", icon: Cpu, color: "bg-cyan-700" },
-          { title: "Init Training", desc: "Predict next word.", icon: Brain, color: "bg-cyan-700" },
-          { title: "Supervised", desc: "Train with labels.", icon: Users, color: "bg-cyan-700" },
-          { title: "Demo Data", desc: "Desired examples.", icon: FileText, color: "bg-cyan-700" }
-        ].reverse().map((item, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <div className={`w-full p-1.5 ${item.color} text-white rounded-t-lg flex flex-col items-center gap-0.5`}>
-              <item.icon size={12} />
-              <span className="text-[7px] font-black uppercase text-center leading-tight">{item.title}</span>
-            </div>
-            <div className="w-full p-1 bg-white border-x border-b border-neutral-100 rounded-b-lg flex items-center justify-center text-center h-8">
-              <p className="text-[7px] font-bold text-neutral-600 leading-tight">{item.desc}</p>
-            </div>
-          </div>
-        ))}
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-white p-3 overflow-hidden">
+      <div className="w-full flex flex-col gap-1">
+        {rows.map((row, rowIdx) => {
+          const items = row.direction === "left" ? [...row.items].reverse() : row.items;
+          return (
+            <React.Fragment key={rowIdx}>
+              {/* Row label */}
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span className={`text-[7px] font-black uppercase tracking-widest ${row.labelColor}`}>{row.label}</span>
+                <div className="flex-1 h-px bg-neutral-100" />
+                <span className={`text-[7px] font-bold ${row.labelColor}`}>
+                  {row.direction === "right" ? "→" : "←"}
+                </span>
+              </div>
 
-        {/* Row 3: Purple Path */}
-        {[
-          { title: "Reward Model", desc: "Rank outputs.", icon: Trophy, color: "bg-cyan-900" },
-          { title: "Fine-Tuning", desc: "Specific datasets.", icon: Zap, color: "bg-purple-700" },
-          { title: "Testing", desc: "Ensure accuracy.", icon: ShieldCheck, color: "bg-purple-700" },
-          { title: "Deployment", desc: "Deploy on servers.", icon: Server, color: "bg-purple-700" },
-          { title: "User Interact", desc: "Process inputs.", icon: MessageSquare, color: "bg-purple-700" }
-        ].map((item, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <div className={`w-full p-1.5 ${item.color} text-white rounded-t-lg flex flex-col items-center gap-0.5`}>
-              <item.icon size={12} />
-              <span className="text-[7px] font-black uppercase text-center leading-tight">{item.title}</span>
-            </div>
-            <div className="w-full p-1 bg-white border-x border-b border-neutral-100 rounded-b-lg flex items-center justify-center text-center h-8">
-              <p className="text-[7px] font-bold text-neutral-600 leading-tight">{item.desc}</p>
-            </div>
-          </div>
-        ))}
+              {/* Cards row */}
+              <div className="flex items-center gap-0.5">
+                {items.map((item, i) => (
+                  <React.Fragment key={i}>
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: (rowIdx * 5 + i) * 0.04 }}
+                      className="flex-1 flex flex-col items-center min-w-0"
+                    >
+                      <div className={`w-full p-1.5 ${item.color} text-white rounded-t-lg flex flex-col items-center gap-0.5`}>
+                        <item.icon size={11} />
+                        <span className="text-[6.5px] font-black uppercase text-center leading-tight">{item.title}</span>
+                      </div>
+                      <div className="w-full p-1 bg-neutral-50 border-x border-b border-neutral-100 rounded-b-lg flex items-center justify-center text-center h-7">
+                        <p className="text-[6.5px] font-bold text-neutral-500 leading-tight">{item.desc}</p>
+                      </div>
+                    </motion.div>
+                    {/* Inline arrow between cards */}
+                    {i < items.length - 1 && (
+                      <ArrowRight size={8} className="text-neutral-300 flex-shrink-0 mx-[-1px]" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
 
-        {/* Final: Green Path */}
-        <div className="col-start-5 flex flex-col items-center">
-          <div className="w-full p-1.5 bg-emerald-900 text-white rounded-t-lg flex flex-col items-center gap-0.5">
-            <Gauge size={12} />
-            <span className="text-[7px] font-black uppercase text-center leading-tight">Performance</span>
-          </div>
-          <div className="w-full p-1 bg-white border-x border-b border-neutral-100 rounded-b-lg flex items-center justify-center text-center h-8">
-            <p className="text-[7px] font-bold text-neutral-600 leading-tight">Track performance.</p>
-          </div>
-        </div>
+              {/* Turn-around arrow between rows */}
+              {rowIdx < rows.length - 1 && (
+                <div className={`flex ${rowIdx % 2 === 0 ? 'justify-end pr-4' : 'justify-start pl-4'} py-0.5`}>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: (rowIdx + 1) * 0.3 }}
+                    className="flex items-center gap-1"
+                  >
+                    <ArrowDown size={10} className="text-neutral-400" />
+                    <span className="text-[6px] font-bold text-neutral-300 uppercase tracking-widest">
+                      {rowIdx === 0 ? "train" : "align"}
+                    </span>
+                  </motion.div>
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // --- 33. Detailed RAG Architecture ---
 export const DetailedRAGArchitecture = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-8 overflow-hidden">
-    <div className="relative w-full max-w-full h-full flex flex-col items-center justify-center">
-      <div className="grid grid-cols-5 gap-4 w-full h-full">
-        {/* User & Orchestrator */}
-        <div className="col-span-1 flex flex-col items-center justify-center gap-8">
-          <motion.div 
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="p-6 bg-white rounded-3xl border-2 border-neutral-200 shadow-sm flex flex-col items-center gap-2"
-          >
-            <Users size={32} className="text-neutral-700" />
-            <span className="text-[10px] font-black uppercase">User</span>
-          </motion.div>
-          <ArrowRight className="text-neutral-300" />
-          <motion.div 
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="p-6 bg-blue-600 rounded-3xl shadow-lg flex flex-col items-center gap-2 text-white"
-          >
-            <Workflow size={32} />
-            <span className="text-[10px] font-black uppercase">Orchestrator</span>
-          </motion.div>
-        </div>
+  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-3 overflow-hidden">
+    <div className="w-full flex flex-col gap-2">
 
-        {/* Retriever & Knowledge */}
-        <div className="col-span-3 flex flex-col items-center justify-center gap-8 border-x-2 border-dashed border-neutral-200 px-8">
-          <div className="flex items-center gap-8 w-full justify-center">
-             <motion.div 
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="p-6 bg-emerald-600 rounded-3xl shadow-lg flex flex-col items-center gap-2 text-white"
-            >
-              <Search size={32} />
-              <span className="text-[10px] font-black uppercase">Retriever</span>
-            </motion.div>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <ArrowRight className="text-neutral-300" />
-                <div className="p-3 bg-white rounded-xl border border-neutral-200 shadow-sm flex items-center gap-2">
-                  <Globe size={16} className="text-blue-500" />
-                  <span className="text-[8px] font-bold uppercase">Web Search</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <ArrowRight className="text-neutral-300" />
-                <div className="p-3 bg-white rounded-xl border border-neutral-200 shadow-sm flex items-center gap-2">
-                  <Database size={16} className="text-emerald-500" />
-                  <span className="text-[8px] font-bold uppercase">Vector DB</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <ArrowRight className="text-neutral-300" />
-                <div className="p-3 bg-white rounded-xl border border-neutral-200 shadow-sm flex items-center gap-2">
-                  <FileText size={16} className="text-amber-500" />
-                  <span className="text-[8px] font-bold uppercase">Documents</span>
-                </div>
-              </div>
-            </div>
+      {/* Row 1: User → Query Processing → Retriever */}
+      <div className="flex items-center justify-between gap-1.5">
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="flex flex-col items-center gap-1"
+        >
+          <div className="w-12 h-12 bg-white rounded-xl border-2 border-neutral-200 flex items-center justify-center shadow-sm">
+            <Users size={20} className="text-neutral-600" />
           </div>
-          <div className="w-full h-px bg-neutral-200 relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 bg-neutral-50 text-[8px] font-black uppercase text-neutral-400">Context Augmentation</div>
-          </div>
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="p-4 bg-neutral-900 rounded-2xl border border-neutral-800 w-full max-sm"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 rounded-full bg-red-500" />
-              <div className="w-2 h-2 rounded-full bg-yellow-500" />
-              <div className="w-2 h-2 rounded-full bg-green-500" />
-            </div>
-            <p className="text-[8px] font-mono text-neutral-400 leading-tight">
-              <span className="text-emerald-400">Prompt:</span> "What are the sales for Q4?"<br/>
-              <span className="text-blue-400">Context:</span> "Q4 sales were $1.2M, up 15%..."<br/>
-              <span className="text-purple-400">Augmented:</span> "Use the context below to answer: Q4 sales were $1.2M..."
-            </p>
-          </motion.div>
-        </div>
+          <span className="text-[7px] font-black uppercase text-neutral-500">User</span>
+        </motion.div>
 
-        {/* LLM & Response */}
-        <div className="col-span-1 flex flex-col items-center justify-center gap-8">
-          <motion.div 
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="p-6 bg-purple-600 rounded-3xl shadow-lg flex flex-col items-center gap-2 text-white"
-          >
-            <Brain size={32} />
-            <span className="text-[10px] font-black uppercase">LLM</span>
-          </motion.div>
-          <ArrowRight className="text-neutral-300" />
-          <motion.div 
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 1.0 }}
-            className="p-6 bg-white rounded-3xl border-2 border-neutral-200 shadow-sm flex flex-col items-center gap-2"
-          >
-            <MessageSquare size={32} className="text-neutral-700" />
-            <span className="text-[10px] font-black uppercase">Response</span>
-          </motion.div>
+        <ArrowRight size={12} className="text-neutral-300 flex-shrink-0" />
+
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="flex flex-col items-center gap-1"
+        >
+          <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <Search size={20} className="text-white" />
+          </div>
+          <span className="text-[7px] font-black uppercase text-blue-600">Query</span>
+        </motion.div>
+
+        <ArrowRight size={12} className="text-neutral-300 flex-shrink-0" />
+
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-col items-center gap-1"
+        >
+          <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <DatabaseZap size={20} className="text-white" />
+          </div>
+          <span className="text-[7px] font-black uppercase text-emerald-600">Retriever</span>
+        </motion.div>
+
+        <ArrowRight size={12} className="text-neutral-300 flex-shrink-0" />
+
+        {/* Knowledge Sources */}
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col gap-1"
+        >
+          {[
+            { label: "Vector DB", icon: Database, color: "text-emerald-500" },
+            { label: "Web", icon: Globe, color: "text-blue-500" },
+            { label: "Docs", icon: FileText, color: "text-amber-500" },
+          ].map((src, i) => (
+            <div key={i} className="flex items-center gap-1.5 px-2 py-1 bg-white rounded-lg border border-neutral-200 shadow-sm">
+              <src.icon size={10} className={src.color} />
+              <span className="text-[7px] font-bold text-neutral-700 uppercase">{src.label}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Divider: Context Augmentation */}
+      <div className="relative flex items-center justify-center py-1">
+        <div className="w-full h-px bg-neutral-200" />
+        <div className="absolute px-3 bg-neutral-50 text-[7px] font-black uppercase text-neutral-400 tracking-widest">
+          Context Augmentation
+        </div>
+      </div>
+
+      {/* Row 2: Augmented Prompt (Code Block) */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="p-2.5 bg-neutral-900 rounded-xl border border-neutral-800"
+      >
+        <div className="flex items-center gap-1.5 mb-1.5">
+          <div className="w-2 h-2 rounded-full bg-red-500" />
+          <div className="w-2 h-2 rounded-full bg-yellow-500" />
+          <div className="w-2 h-2 rounded-full bg-green-500" />
+        </div>
+        <p className="text-[8px] font-mono text-neutral-400 leading-relaxed">
+          <span className="text-emerald-400">Prompt:</span> "What are the sales for Q4?"<br />
+          <span className="text-blue-400">Context:</span> "Q4 sales were $1.2M, up 15%..."<br />
+          <span className="text-purple-400">Augmented:</span> "Use the context below to answer: Q4 sales were $1.2M..."
+        </p>
+      </motion.div>
+
+      {/* Row 3: Augmented → LLM → Response */}
+      <div className="flex items-center justify-center gap-3">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="flex flex-col items-center gap-1"
+        >
+          <div className="w-14 h-14 bg-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+            <Brain size={24} className="text-white" />
+          </div>
+          <span className="text-[7px] font-black uppercase text-purple-600">LLM</span>
+        </motion.div>
+
+        <ArrowRight size={14} className="text-neutral-300 flex-shrink-0" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+          className="flex flex-col items-center gap-1"
+        >
+          <div className="w-14 h-14 bg-white rounded-xl border-2 border-neutral-200 flex items-center justify-center shadow-sm">
+            <MessageSquare size={24} className="text-neutral-700" />
+          </div>
+          <span className="text-[7px] font-black uppercase text-neutral-600">Response</span>
+        </motion.div>
+      </div>
+
+      {/* Optional Reranker badge */}
+      <div className="flex justify-center">
+        <div className="flex items-center gap-1.5 px-3 py-1 bg-white rounded-full border border-neutral-200 shadow-sm">
+          <Filter size={10} className="text-amber-500" />
+          <span className="text-[7px] font-bold text-neutral-500 uppercase tracking-wider">Optional: Reranker between retrieval & generation</span>
         </div>
       </div>
     </div>
   </div>
 );
-
 // --- 34. RAG Indexing Code 1 ---
 export const RAGIndexingCode1 = () => (
   <div className="w-full h-full flex flex-col bg-neutral-950 p-4 gap-3 overflow-hidden">
@@ -1955,55 +2073,67 @@ export const AgentAnatomyPDF = () => (
 
 // --- 41. Agent Thinking Process ---
 export const AgentThinkingProcess = () => (
-  <div className="w-full h-full bg-neutral-900 p-8 flex flex-col items-center justify-center">
-    <div className="grid grid-cols-3 gap-8 w-full max-w-full">
-      {/* Perception */}
-      <div className="space-y-4">
-        <h4 className="text-xs font-black text-blue-400 uppercase tracking-widest text-center">Perception</h4>
-        <div className="bg-neutral-800 p-4 rounded-3xl border border-blue-500/30 space-y-2">
-          {["Text", "Audio", "Images", "Environment"].map((item, i) => (
-            <div key={i} className="p-2 bg-neutral-900 rounded-xl text-[10px] text-blue-300 font-bold border border-blue-500/10 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-              {item}
-            </div>
-          ))}
+  <div className="w-full h-full bg-neutral-900 p-3 flex flex-col items-center justify-center overflow-hidden">
+    <div className="w-full flex flex-col gap-3">
+      
+      {/* Top Row: Perception → Agent → Actions */}
+      <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
+        {/* Perception */}
+        <div className="space-y-2">
+          <h4 className="text-[9px] font-black text-blue-400 uppercase tracking-widest text-center">Perception</h4>
+          <div className="bg-neutral-800 p-2.5 rounded-2xl border border-blue-500/20 space-y-1.5">
+            {["Text Input", "Structured Data", "Images", "Audio"].map((item, i) => (
+              <div key={i} className="p-1.5 bg-neutral-900 rounded-lg text-[9px] text-blue-300 font-bold border border-blue-500/10 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0" />
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Core Agent */}
+        <div className="flex flex-col items-center gap-2">
+          <motion.div 
+            animate={{ scale: [1, 1.03, 1] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="w-20 h-20 bg-blue-600 rounded-[24px] flex items-center justify-center text-white shadow-[0_0_30px_rgba(37,99,235,0.3)] border-2 border-blue-400"
+          >
+            <BrainCircuit size={36} />
+          </motion.div>
+          <div className="flex gap-1.5">
+            <div className="px-2 py-0.5 bg-neutral-800 rounded-full text-[7px] font-bold text-neutral-400 uppercase">Reason</div>
+            <div className="px-2 py-0.5 bg-neutral-800 rounded-full text-[7px] font-bold text-neutral-400 uppercase">Learn</div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="space-y-2">
+          <h4 className="text-[9px] font-black text-emerald-400 uppercase tracking-widest text-center">Actions</h4>
+          <div className="bg-neutral-800 p-2.5 rounded-2xl border border-emerald-500/20 space-y-1.5">
+            {["API Calls", "Web Search", "Code Execution", "File Operations"].map((item, i) => (
+              <div key={i} className="p-1.5 bg-neutral-900 rounded-lg text-[9px] text-emerald-300 font-bold border border-emerald-500/10 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full flex-shrink-0" />
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Core Agent */}
-      <div className="flex flex-col items-center justify-center gap-6">
-        <div className="w-32 h-32 bg-blue-600 rounded-[40px] flex items-center justify-center text-white shadow-[0_0_50px_rgba(37,99,235,0.3)] border-4 border-blue-400">
-          <BrainCircuit size={64} />
+      {/* Bottom Row: Planning + Memory */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="p-2.5 bg-neutral-800 rounded-2xl border border-amber-500/20">
+          <h5 className="text-[9px] font-black text-amber-400 uppercase mb-1.5 tracking-wider">Planning</h5>
+          <p className="text-[8px] text-neutral-400 leading-snug">Task decomposition, chain-of-thought, and plan revision.</p>
         </div>
-        <div className="flex gap-2">
-          <div className="px-3 py-1 bg-neutral-800 rounded-full text-[8px] font-bold text-neutral-400 uppercase">Reasoning</div>
-          <div className="px-3 py-1 bg-neutral-800 rounded-full text-[8px] font-bold text-neutral-400 uppercase">Learning</div>
+        <div className="p-2.5 bg-neutral-800 rounded-2xl border border-purple-500/20">
+          <h5 className="text-[9px] font-black text-purple-400 uppercase mb-1.5 tracking-wider">Short-Term Memory</h5>
+          <p className="text-[8px] text-neutral-400 leading-snug">Context window, working memory, recent interactions.</p>
         </div>
-      </div>
-
-      {/* Tools/Actions */}
-      <div className="space-y-4">
-        <h4 className="text-xs font-black text-emerald-400 uppercase tracking-widest text-center">Actions</h4>
-        <div className="bg-neutral-800 p-4 rounded-3xl border border-emerald-500/30 space-y-2">
-          {["Web Search", "API Calls", "Knowledge Retrieval", "System Commands"].map((item, i) => (
-            <div key={i} className="p-2 bg-neutral-900 rounded-xl text-[10px] text-emerald-300 font-bold border border-emerald-500/10 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-              {item}
-            </div>
-          ))}
+        <div className="p-2.5 bg-neutral-800 rounded-2xl border border-cyan-500/20">
+          <h5 className="text-[9px] font-black text-cyan-400 uppercase mb-1.5 tracking-wider">Long-Term Memory</h5>
+          <p className="text-[8px] text-neutral-400 leading-snug">Vector stores, episodic memory, persistent knowledge.</p>
         </div>
-      </div>
-    </div>
-
-    {/* Memory Section */}
-    <div className="mt-12 w-full max-w-2xl grid grid-cols-2 gap-4">
-      <div className="p-4 bg-neutral-800 rounded-3xl border border-purple-500/30">
-        <h5 className="text-[10px] font-black text-purple-400 uppercase mb-2">Short Term</h5>
-        <p className="text-[9px] text-neutral-400">Context window, working memory, recent interactions.</p>
-      </div>
-      <div className="p-4 bg-neutral-800 rounded-3xl border border-amber-500/30">
-        <h5 className="text-[10px] font-black text-amber-400 uppercase mb-2">Long Term</h5>
-        <p className="text-[9px] text-neutral-400">Vector stores, episodic memory, persistent knowledge base.</p>
       </div>
     </div>
   </div>
@@ -2254,28 +2384,36 @@ export const KnowledgeVsAction = () => (
 
 // --- LangChain Flow (LCEL) ---
 export const LangChainFlow = () => (
-  <div className="w-full h-full flex items-center justify-center bg-neutral-50 p-8">
-    <div className="w-full max-w-full flex items-center gap-4">
+  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-50 p-4">
+    <div className="w-full max-w-sm flex flex-col items-center gap-1.5">
       {[
-        { title: "Prompt", icon: MessageSquare, color: "text-blue-500", bg: "bg-blue-50" },
-        { title: "LLM", icon: Cpu, color: "text-purple-500", bg: "bg-purple-50" },
-        { title: "Output Parser", icon: FileJson, color: "text-emerald-500", bg: "bg-emerald-50" },
-        { title: "Tool Call", icon: Wrench, color: "text-amber-500", bg: "bg-amber-50" }
+        { title: "Prompt Template", desc: "Formats raw variables into structured text.", icon: MessageSquare, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
+        { title: "LLM / Chat Model", desc: "Generates the raw textual completion.", icon: Cpu, color: "text-purple-600", bg: "bg-purple-50", border: "border-purple-100" },
+        { title: "Output Parser", desc: "Extracts and types the output (e.g., JSON).", icon: FileJson, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+        { title: "Tool Call", desc: "Executes external functions based on the output.", icon: Wrench, color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" }
       ].map((step, i, arr) => (
         <React.Fragment key={i}>
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className={`flex-1 p-6 ${step.bg} rounded-3xl border-2 border-white shadow-sm flex flex-col items-center gap-4`}
+            transition={{ delay: i * 0.15 }}
+            className={`w-full p-3 ${step.bg} rounded-2xl border-2 ${step.border} shadow-sm flex items-center gap-3`}
           >
-            <div className={`w-12 h-12 ${step.color} flex items-center justify-center`}>
-              <step.icon size={32} />
+            <div className={`w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center flex-shrink-0 ${step.color}`}>
+              <step.icon size={20} />
             </div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-neutral-900">{step.title}</span>
+            <div>
+              <span className={`text-[10px] font-black uppercase tracking-widest ${step.color}`}>{step.title}</span>
+              <p className="text-[9px] text-neutral-600 mt-0.5 leading-snug">{step.desc}</p>
+            </div>
           </motion.div>
+          
           {i < arr.length - 1 && (
-            <div className="text-neutral-300 font-black text-2xl">|</div>
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <div className="w-5 h-5 bg-white border border-neutral-200 rounded-full flex items-center justify-center shadow-sm z-10 text-[10px] font-black text-neutral-400 font-mono">
+                |
+              </div>
+            </div>
           )}
         </React.Fragment>
       ))}
@@ -2418,33 +2556,39 @@ const instructions = parser
 // --- LangGraph Architecture ---
 export const LangGraphArchitecture = () => (
   <div className="w-full h-full bg-slate-950 p-3 flex flex-col items-center justify-center text-white overflow-hidden">
-    <div className="relative w-full h-full bg-slate-900/50 rounded-2xl border border-white/10 p-3 overflow-hidden">
+    <div className="relative w-full h-full bg-slate-900/50 rounded-2xl border border-white/10 p-4 overflow-hidden flex flex-col justify-between">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
       
       {/* Engine */}
-      <div className="relative z-10 flex flex-col items-center mb-2">
-        <div className="px-4 py-2 bg-blue-600 rounded-lg font-bold text-sm shadow-lg shadow-blue-500/20 flex items-center gap-2">
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="px-5 py-2.5 bg-blue-600 rounded-xl font-bold text-sm shadow-lg shadow-blue-500/20 flex items-center gap-2">
           <Cpu size={16} />
           LangGraph Engine
         </div>
-        <div className="h-4 w-px bg-blue-500/50" />
+        <div className="h-5 w-px bg-blue-500/40" />
       </div>
 
       {/* Intent Classifier */}
-      <div className="relative z-10 flex flex-col items-center mb-2">
-        <div className="px-4 py-2 bg-purple-600 rounded-lg font-bold text-sm shadow-lg shadow-purple-500/20 flex items-center gap-2">
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="px-5 py-2.5 bg-purple-600 rounded-xl font-bold text-sm shadow-lg shadow-purple-500/20 flex items-center gap-2">
           <Search size={16} />
           Intent Classifier
         </div>
-        <div className="h-4 w-px bg-purple-500/50" />
+        <div className="h-5 w-px bg-purple-500/40" />
       </div>
 
       {/* Orchestrator */}
-      <div className="relative z-10 flex flex-col items-center mb-4">
-        <div className="px-4 py-2 bg-indigo-600 rounded-lg font-bold text-sm shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+      <div className="relative z-10 flex flex-col items-center">
+        <div className="px-5 py-2.5 bg-indigo-600 rounded-xl font-bold text-sm shadow-lg shadow-indigo-500/20 flex items-center gap-2">
           <Workflow size={16} />
           Task Orchestrator
         </div>
+        {/* Fan-out lines */}
+        <svg viewBox="0 0 200 20" className="w-full h-5 mt-0.5">
+          {[20, 60, 100, 140, 180].map((x, i) => (
+            <line key={i} x1="100" y1="0" x2={x} y2="20" stroke="#6366f1" strokeWidth="0.8" opacity="0.4" />
+          ))}
+        </svg>
       </div>
 
       {/* Agents Grid */}
@@ -2456,19 +2600,37 @@ export const LangGraphArchitecture = () => (
           { name: 'Search', icon: Globe, color: 'bg-blue-500' },
           { name: 'Utility', icon: Wrench, color: 'bg-slate-500' }
         ].map((agent, i) => (
-          <div key={i} className="flex flex-col items-center gap-1">
-            <div className="w-full h-px bg-indigo-500/30" />
-            <div className={`w-9 h-9 ${agent.color} rounded-lg flex items-center justify-center shadow-lg`}>
+          <motion.div 
+            key={i}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.08 }}
+            className="flex flex-col items-center gap-1.5"
+          >
+            <div className={`w-10 h-10 ${agent.color} rounded-lg flex items-center justify-center shadow-lg`}>
               <agent.icon size={18} />
             </div>
             <span className="text-[8px] font-bold uppercase tracking-wider opacity-70">{agent.name}</span>
-          </div>
+          </motion.div>
         ))}
       </div>
 
+      {/* Evaluator */}
+      <div className="relative z-10 flex flex-col items-center">
+        <svg viewBox="0 0 200 16" className="w-full h-4 mb-0.5">
+          {[20, 60, 100, 140, 180].map((x, i) => (
+            <line key={i} x1={x} y1="0" x2="100" y2="16" stroke="#22c55e" strokeWidth="0.8" opacity="0.3" />
+          ))}
+        </svg>
+        <div className="px-5 py-2.5 bg-emerald-600 rounded-xl font-bold text-sm shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+          <ShieldCheck size={16} />
+          Evaluator
+        </div>
+      </div>
+
       {/* Checkpointing */}
-      <div className="relative z-10 mt-2 flex justify-end">
-        <div className="flex items-center gap-1 px-2 py-1 bg-slate-800 rounded-full border border-white/10 text-[8px] font-mono text-blue-400">
+      <div className="relative z-10 flex justify-center">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 rounded-full border border-white/10 text-[8px] font-mono text-blue-400">
           <DatabaseZap size={10} />
           SqliteSaver Checkpointing
         </div>
@@ -2569,51 +2731,69 @@ export const MCPComparison = () => (
 
 // --- MCP Works ---
 export const MCPWorks = () => (
-  <div className="w-full h-full bg-slate-950 p-4 flex flex-col items-center justify-center text-white font-sans">
-    <div className="relative w-full max-w-full aspect-video bg-slate-900/50 rounded-3xl border border-white/10 p-4 overflow-hidden flex items-center justify-between">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5" />
-      
+  <div className="w-full h-full bg-slate-950 p-3 flex flex-col items-center justify-center text-white overflow-hidden">
+    <div className="w-full flex flex-col items-center gap-4">
+
       {/* Host */}
-      <div className="relative z-10 flex flex-col items-center gap-4 w-1/4">
-        <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-          <Cpu size={40} />
+      <div className="flex flex-col items-center gap-2">
+        <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+          <Cpu size={28} />
         </div>
         <div className="text-center">
-          <div className="font-bold text-lg">MCP Host</div>
-          <div className="text-[10px] text-blue-400 font-mono uppercase tracking-widest">Claude, IDE, AI Tools</div>
+          <div className="font-bold text-sm">MCP Host</div>
+          <div className="text-[8px] text-blue-400 font-mono uppercase tracking-widest">Claude, VS Code, AI Apps</div>
         </div>
       </div>
 
-      {/* Client-Server Connection */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-8">
-        <div className="w-full h-px bg-gradient-to-r from-blue-500 via-white to-cyan-500 relative">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-slate-800 rounded-full border border-white/20 text-[10px] font-mono whitespace-nowrap">
-            JSON-RPC 2.0 (Transport Layer)
-          </div>
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2 h-2 bg-blue-500 rounded-full animate-ping" />
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2 h-2 bg-cyan-500 rounded-full animate-ping" />
+      {/* Client */}
+      <div className="flex flex-col items-center gap-1">
+        <div className="w-px h-4 bg-blue-500/40" />
+        <div className="px-4 py-1.5 bg-blue-500/15 rounded-lg border border-blue-500/30 flex items-center gap-2">
+          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+          <span className="text-[9px] font-black text-blue-400 uppercase tracking-wider">Client</span>
         </div>
-        <div className="mt-8 grid grid-cols-2 gap-3 w-full">
-          <div className="flex flex-col items-center gap-2">
-            <div className="px-3 py-1 bg-blue-500/20 rounded border border-blue-500/30 text-[10px] font-bold text-blue-400">CLIENT</div>
-            <p className="text-[10px] text-slate-400 text-center">Initiates connections, manages lifecycle</p>
-          </div>
-          <div className="flex flex-col items-center gap-2">
-            <div className="px-3 py-1 bg-cyan-500/20 rounded border border-cyan-500/30 text-[10px] font-bold text-cyan-400">SERVER</div>
-            <p className="text-[10px] text-slate-400 text-center">Exposes prompts, tools, resources</p>
+        <p className="text-[8px] text-slate-500 text-center">Initiates connections, manages lifecycle</p>
+      </div>
+
+      {/* Transport Layer */}
+      <div className="w-full max-w-xs flex flex-col items-center gap-1">
+        <div className="w-px h-3 bg-white/20" />
+        <div className="w-full px-4 py-2 bg-slate-800 rounded-xl border border-white/10 text-center">
+          <div className="text-[9px] font-mono font-bold text-white/80">JSON-RPC 2.0</div>
+          <div className="text-[7px] text-slate-500 uppercase tracking-widest mt-0.5">Transport Layer</div>
+          <div className="flex justify-center gap-6 mt-2">
+            <span className="text-[7px] text-slate-400 font-mono">stdio (local)</span>
+            <span className="text-[7px] text-slate-400 font-mono">HTTP + SSE (remote)</span>
           </div>
         </div>
+        <div className="w-px h-3 bg-white/20" />
+      </div>
+
+      {/* Server */}
+      <div className="flex flex-col items-center gap-1">
+        <div className="px-4 py-1.5 bg-cyan-500/15 rounded-lg border border-cyan-500/30 flex items-center gap-2">
+          <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse" />
+          <span className="text-[9px] font-black text-cyan-400 uppercase tracking-wider">Server</span>
+        </div>
+        <p className="text-[8px] text-slate-500 text-center">Exposes tools, prompts, and resources</p>
+        <div className="w-px h-4 bg-cyan-500/40" />
       </div>
 
       {/* Data Sources */}
-      <div className="relative z-10 flex flex-col items-center gap-4 w-1/4">
-        <div className="w-20 h-20 bg-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
-          <Database size={40} />
+      <div className="flex flex-col items-center gap-2">
+        <div className="w-16 h-16 bg-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <Database size={28} />
         </div>
         <div className="text-center">
-          <div className="font-bold text-lg">Data Sources</div>
-          <div className="text-[10px] text-cyan-400 font-mono uppercase tracking-widest">CRM, S3, SQL, Local Files</div>
+          <div className="font-bold text-sm">Data Sources</div>
+          <div className="text-[8px] text-cyan-400 font-mono uppercase tracking-widest">CRM, S3, SQL, Files</div>
         </div>
+      </div>
+
+      {/* Discovery badge */}
+      <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 rounded-full border border-white/10">
+        <Search size={10} className="text-amber-400" />
+        <span className="text-[8px] font-bold text-amber-400 uppercase tracking-wider">Runtime tool discovery</span>
       </div>
     </div>
   </div>

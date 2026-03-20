@@ -109,7 +109,7 @@ export const slides: SlideData[] = [
     id: 9,
     header: "Tokenization & Transformers",
     content: [
-      "Tokenization: Breaking text into sub-word units using BPE, WordPiece, or SentencePiece (e.g., 'unhappiness' → ['un', 'happi', 'ness']).",
+      "Tokenization: Breaking text into sub-word units (e.g., 'unhappiness' → ['un', 'happi', 'ness']).",
       "Parameters: The learned weights and biases that encode the model's knowledge (e.g., GPT-4 estimated at ~1.8T parameters).",
       "Transformers: Architecture using multi-head self-attention for parallel sequence processing — no recurrence needed.",
       "In Practice: Hugging Face `transformers` library provides tokenizers and pre-trained models out of the box."
@@ -122,9 +122,9 @@ export const slides: SlideData[] = [
     header: "Embeddings: Mathematical Meaning",
     content: [
       "Process: Mapping discrete tokens to continuous, dense vectors in a high-dimensional space.",
-      "Semantic Similarity: Words with similar meanings have vectors that are close together (measured by cosine similarity).",
-      "Contextual Embeddings: Modern models (BERT, GPT) produce different vectors for the same word depending on context ('bank' in finance vs. river).",
-      "In Practice: `sentence-transformers` library for generating sentence-level embeddings optimized for similarity search."
+      "Semantic Similarity: Words with similar meanings have vectors that are close together.",
+      "Contextual Embeddings: Modern models produce different vectors for the same word depending on context ('bank' in finance vs. river).",
+      "In Practice: Use of `sentence-transformers` library for generating sentence-level embeddings for similarity search."
     ],
     visualType: 'python-embeddings',
     notes: "Static embeddings (Word2Vec, GloVe) give one vector per word. Contextual embeddings from Transformers are far more powerful because the same token gets different representations based on surrounding context."
@@ -390,8 +390,9 @@ export const slides: SlideData[] = [
     id: 32,
     header: "LangChain Expression Language (LCEL)",
     content: [
-      "Declarative composition of chains using the pipe operator: `prompt | model | parser`.",
-      "Built-in: Streaming, async/batch execution, retries, and fallbacks — production-ready by default."
+      "LCEL is a declarative syntax for composing LangChain components into pipelines without writing boilerplate glue code.",
+      "Uses the pipe operator (`|`) to chain steps: the output of each component automatically becomes the input of the next (`chain = prompt | model | parser`).",
+      "Every LCEL chain automatically supports streaming, async/batch execution, retries, and fallbacks out of the box."
     ],
     visualType: 'langchain-lcel',
     notes: "LCEL replaced the legacy Chain classes. Every LCEL chain automatically supports streaming, batching, and async — you get production features for free."
@@ -410,9 +411,9 @@ export const slides: SlideData[] = [
     id: 34,
     header: "Document Loaders: Ingesting Data",
     content: [
-      "File-Based: PDF (PyPDFLoader), DOCX, CSV, JSON, HTML, Markdown.",
-      "Web Loaders: Crawl and extract content from URLs (Cheerio, Playwright, Puppeteer).",
-      "Cloud & SaaS: S3, Google Drive, Notion, Confluence, Slack, GitHub.",
+      "File-Based: PDF, CSV, JSON, HTML, Markdown.",
+      "Web Loaders: Crawl and extract content from URLs (Puppeteer).",
+      "Cloud & SaaS: Google Drive, Notion, Slack, GitHub.",
       "Databases: SQL (via queries), MongoDB, Elasticsearch.",
       "Custom Loaders: Extend the base class for proprietary data sources or internal APIs."
     ],
@@ -427,7 +428,7 @@ export const slides: SlideData[] = [
       "WindowMemory: Keeps only the last K turns, bounded but loses early context.",
       "TokenBufferMemory: Keeps as many messages as fit within a token budget.",
       "SummaryMemory: Periodically summarizes older messages and balances context retention with cost.",
-      "Best Practice: Combine short-term buffer memory with long-term vector store retrieval for production chatbots."
+      "Best Practice: Combine short-term buffer memory with long-term vector store retrieval for chatbots."
     ],
     visualType: 'langchain-memory',
     notes: "Memory strategy directly impacts both cost and quality. For most production applications, a hybrid approach works best: keep recent messages in a buffer, and store/retrieve older context from a vector store."
@@ -449,7 +450,7 @@ export const slides: SlideData[] = [
     content: [
       "LangGraph extends LangChain with cyclic graphs, persistent state, and fine-grained control flow.",
       "LangChain provides the components (LLMs, tools, prompts); LangGraph orchestrates them into workflows.",
-      "Key Capabilities: Conditional edges, loops, parallel branches, human-in-the-loop, and state checkpointing.",
+      "Key Capabilities: Conditional edges, loops, parallel branches, human-in-the-loop, etc.",
       "Core Abstraction: Nodes (functions) + Edges (routing logic) + State (shared, typed context)."
     ],
     visualType: 'langgraph',
@@ -510,7 +511,7 @@ export const slides: SlideData[] = [
     content: [
       "MCP Host: The application environment — Claude Desktop, VS Code, custom apps, or IDE extensions.",
       "MCP Client: A protocol client within the host that manages connections to one or more servers.",
-      "MCP Server: A lightweight process that exposes specific capabilities (tools, resources) from a data source.",
+      "MCP Server: Lightweight process that exposes specific capabilities (tools, resources) from a data source.",
       "Transport: Communication via stdio (local) or HTTP with Server-Sent Events (remote).",
       "Discovery: Clients can list available tools and their schemas at runtime — enabling dynamic tool selection."
     ],
@@ -521,10 +522,9 @@ export const slides: SlideData[] = [
     id: 43,
     header: "Case Study: Ecommerce Catalog Automation",
     content: [
-      "Input: Raw supplier CSV with unstructured product data.",
-      "Agent 1 (Writer): Extracts specifications, generates SEO-optimized descriptions in brand voice.",
-      "Agent 2 (Critic): Validates against brand guidelines, checks for prohibited claims, and verifies SEO compliance.",
-      "Feedback Loop: If validation fails, the Writer agent regenerates with correction.",
+      "Input: Raw supplier CSV, unstructured product data.",
+      "Writer Agent: Extracts specs and generates SEO-optimized descriptions in brand voice.",
+      "Critic Agent: Validates brand guidelines, checks prohibited claims, and verifies SEO compliance. If validation fails, the Writer regenerates with corrections.",
       "Output: Production-ready Shopify product JSON with validated titles, descriptions, tags, and metadata."
     ],
     visualType: 'usecase',
@@ -534,8 +534,8 @@ export const slides: SlideData[] = [
     id: 44,
     header: "Productionizing Agents: Observability",
     content: [
-      "Key Metrics: End-to-end latency, token consumption, cost per request, task success rate, and tool call failure rate.",
-      "Tracing: LangSmith / Langfuse provide full execution traces — every LLM call, tool invocation, and state transition.",
+      "Metrics: End-to-end latency, token consumption, cost per request, task success rate, and tool call failure rate.",
+      "Tracing: LangSmith/Langfuse provide full execution traces: every LLM call, tool invocation, and state transition.",
       "Evaluation: Automated eval pipelines using golden datasets, LLM-as-judge, and human review.",
       "Guardrails: Input/output validation, content filtering, budget limits, and rate limiting."
     ],
@@ -546,12 +546,20 @@ export const slides: SlideData[] = [
     id: 45,
     header: "The Road Ahead",
     content: [
-      "Immediate: Pilot a RAG system grounded on internal documentation and product data.",
-      "Short-term: Build a LangGraph agent for automated catalog enrichment and customer query routing.",
-      "Mid-term: Deploy multi-agent workflows for end-to-end order management and supplier integration.",
-      "Vision: AI agents as composable, observable, and reliable infrastructure — not just prototypes."
+      "Product Catalog: Agents that auto-generate SEO descriptions, tags, and metadata from raw supplier data.",
+      "Customer Support: Intent classification + specialized agents for returns, tracking, and product questions.",
+      "Inventory: RAG over supplier docs and sales data to automate restock decisions and demand forecasting.",
+      "Content Generation: Multi-agent workflows for blog posts, email campaigns, and social media with built-in review and brand compliance."
     ],
     visualType: 'future',
     notes: "Start small, measure everything, and iterate. The technology is mature enough for production — the key is building trust through observability and gradual scope expansion."
+  },
+  {
+    id: 46,
+    header: "Thank You",
+    subtitle: "Let's build intelligent systems together",
+    presenter: "Sherezade Maqueda",
+    visualType: 'network',
+    notes: "Thank you for your time. Happy to answer any questions about implementing these patterns in our ecommerce stack."
   }
 ];
