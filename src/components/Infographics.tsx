@@ -1828,61 +1828,59 @@ export const RAGIndexingCode1 = () => (
 
 // --- 35. RAG Indexing Code 2 ---
 export const RAGIndexingCode2 = () => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-950 p-8">
-    <div className="w-full max-w-full grid grid-cols-2 gap-8">
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-emerald-600 rounded-2xl text-white">
-            <DatabaseZap size={24} />
-          </div>
-          <div>
-            <h4 className="text-white font-black uppercase tracking-tighter text-xl">Embed & Store</h4>
-            <p className="text-neutral-400 text-xs">Turning text into searchable vectors.</p>
-          </div>
-        </div>
-        <div className="space-y-4">
-          {[
-            { title: "OpenAIEmbeddings", desc: "High-quality semantic vectors.", icon: Brain },
-            { title: "FAISS", desc: "Efficient local vector storage.", icon: Box },
-            { title: "Similarity Search", desc: "Finding context via math.", icon: Search }
-          ].map((item, i) => (
-            <div key={i} className="p-4 bg-neutral-900 border border-neutral-800 rounded-2xl flex items-center gap-4">
-              <item.icon size={20} className="text-emerald-400" />
-              <div>
-                <span className="text-[10px] font-black text-white uppercase">{item.title}</span>
-                <p className="text-[8px] text-neutral-500">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+  <div className="w-full h-full flex flex-col bg-neutral-950 p-3 gap-2 overflow-hidden">
+    {/* Header */}
+    <div className="flex items-center gap-2">
+      <div className="p-2 bg-emerald-600 rounded-xl text-white flex-shrink-0">
+        <DatabaseZap size={18} />
       </div>
-      <div className="bg-neutral-900 rounded-3xl border border-neutral-800 overflow-hidden shadow-2xl flex flex-col">
-        <div className="bg-neutral-800 px-4 py-2 flex items-center justify-between border-b border-neutral-700">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500/50" />
-          </div>
-          <span className="text-[10px] font-mono text-neutral-500">vector_store.py</span>
+      <div>
+        <h4 className="text-white font-black uppercase tracking-tighter text-sm">Embed & Store</h4>
+        <p className="text-neutral-400 text-[8px]">Turning text into searchable vectors.</p>
+      </div>
+    </div>
+
+    {/* Concepts */}
+    <div className="grid grid-cols-3 gap-1.5">
+      {[
+        { title: "Embeddings", desc: "Semantic vectors", icon: Brain },
+        { title: "FAISS", desc: "Local storage", icon: Box },
+        { title: "Search", desc: "Similarity query", icon: Search }
+      ].map((item, i) => (
+        <div key={i} className="p-2 bg-neutral-900 border border-neutral-800 rounded-xl flex flex-col items-center text-center gap-1">
+          <item.icon size={14} className="text-emerald-400" />
+          <span className="text-[7px] font-black text-white uppercase">{item.title}</span>
+          <p className="text-[6px] text-neutral-500 leading-tight">{item.desc}</p>
         </div>
-        <div className="p-6 font-mono text-[10px] leading-relaxed overflow-auto">
-          <div className="text-neutral-500"># 3. Create Embeddings</div>
-          <div className="text-blue-400">from <span className="text-white">langchain.embeddings</span> import <span className="text-white">OpenAIEmbeddings</span></div>
-          <div className="text-white mt-1">embeddings = OpenAIEmbeddings()</div>
-          
-          <div className="text-neutral-500 mt-4"># 4. Store in FAISS</div>
-          <div className="text-blue-400">from <span className="text-white">langchain.vectorstores</span> import <span className="text-white">FAISS</span></div>
-          <div className="text-white mt-1">vector_store = FAISS.from_documents(</div>
-          <div className="text-white ml-4">chunks,</div>
-          <div className="text-white ml-4">embeddings</div>
-          <div className="text-white">)</div>
-          
-          <div className="text-neutral-500 mt-4"># 5. Query the store</div>
-          <div className="text-white">query = <span className="text-emerald-400">"What are the Q4 results?"</span></div>
-          <div className="text-white">results = vector_store.similarity_search(query)</div>
-          
-          <div className="text-emerald-400 mt-4">print(<span className="text-white">results[0].page_content</span>)</div>
+      ))}
+    </div>
+
+    {/* Code Block */}
+    <div className="flex-1 bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden shadow-2xl flex flex-col min-h-0">
+      <div className="bg-neutral-800 px-3 py-1.5 flex items-center justify-between border-b border-neutral-700 flex-shrink-0">
+        <div className="flex gap-1.5">
+          <div className="w-2 h-2 rounded-full bg-red-500/50" />
+          <div className="w-2 h-2 rounded-full bg-yellow-500/50" />
+          <div className="w-2 h-2 rounded-full bg-green-500/50" />
         </div>
+        <span className="text-[8px] font-mono text-neutral-500">vector_store.py</span>
+      </div>
+      <div className="p-3 font-mono text-[8px] leading-relaxed overflow-y-auto flex-1">
+        <div className="text-neutral-500"># 3. Create Embeddings</div>
+        <div><span className="text-blue-400">from</span> <span className="text-white">langchain.embeddings</span> <span className="text-blue-400">import</span> <span className="text-white">OpenAIEmbeddings</span></div>
+        <div className="text-white mt-1">embeddings = OpenAIEmbeddings()</div>
+        
+        <div className="text-neutral-500 mt-3"># 4. Store in FAISS</div>
+        <div><span className="text-blue-400">from</span> <span className="text-white">langchain.vectorstores</span> <span className="text-blue-400">import</span> <span className="text-white">FAISS</span></div>
+        <div className="text-white mt-1">vector_store = FAISS.from_documents(</div>
+        <div className="text-white ml-3">chunks, embeddings</div>
+        <div className="text-white">)</div>
+        
+        <div className="text-neutral-500 mt-3"># 5. Query the store</div>
+        <div className="text-white">query = <span className="text-emerald-400">"Q4 results?"</span></div>
+        <div className="text-white">results = vector_store.similarity_search(query)</div>
+        
+        <div className="mt-3"><span className="text-emerald-400">print</span><span className="text-white">(results[0].page_content)</span></div>
       </div>
     </div>
   </div>
